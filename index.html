@@ -224,7 +224,7 @@ async function api(path, opt = {}) {
 async function loadLive() {
   const t = midnight();
   const [acts, well, evs] = await Promise.all([
-    api('/activities?oldest=' + ymd(addDays(t,-62)) + '&newest=' + ymd(t)),
+    api('/activities?oldest=' + ymd(addDays(t,-62)) + '&newest=' + ymd(addDays(t,1))),
     api('/wellness?oldest=' + ymd(addDays(t,-42)) + '&newest=' + ymd(t)),
     api('/events?oldest=' + ymd(t) + '&newest=' + ymd(addDays(t,13)) + '&category=WORKOUT')
   ]);
