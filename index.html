@@ -489,13 +489,15 @@ function context(D, R) {
   if (!S.planStart || parse(S.planStart) > cur) { S.planStart = ymd(cur); save(); }
   const full = weekly(D.runs, 3).slice(0,-1).map(w => w.min), last = full[1] || 0, prev = full[0] || 0;
   let base = Math.max(last, prev); const notes = [];
-  const fresh = base < 30;
+  const fresh = base < 30, actual = base;
   if (fresh) { base = S.startMin; notes.push('Nog weinig loopdata, dus het plan start op ' + S.startMin + ' minuten per week.'); }
+  else if (base < S.startMin) { notes.push('Je liep de laatste weken ' + Math.round(base) + ' minuten per week, dus het plan start op je startvolume van ' + S.startMin + ' minuten.'); base = S.startMin; }
   else notes.push('Basis: ' + Math.round(base) + ' minuten per week, het hoogste van je laatste twee volle weken.');
+  notes.push('Elke opbouwweek komt er ongeveer 8% bij. Elke run duurt minimaal 25 minuten (lange duurloop 40), dus de eerste weken kan het totaal even gelijk blijven.');
   let f = {fris:1.08, normaal:1.06, letop:1, moe:.85, onbekend:1}[R.key];
   const pct = x => (x > 1 ? '+' : '') + Math.round((x-1)*100) + '%';
   notes.push('Je status is ' + R.label.toLowerCase() + ', dus deze week ' + (f === 1 ? 'gelijk volume.' : pct(f) + ' volume.'));
-  if (!fresh && last < .6*base && f > .9) { f = .9; notes.push('Vorige week liep je veel minder, dus voorzichtig weer oppakken (' + pct(f) + ').'); }
+  if (!fresh && actual >= S.startMin && last < .6*actual && f > .9) { f = .9; notes.push('Vorige week liep je veel minder, dus voorzichtig weer oppakken (' + pct(f) + ').'); }
   if (R.key === 'moe') notes.push('Je bent moe: intervallen deze week worden rustige runs.');
   notes.push('Elke vierde week is een herstelweek, de achtste week sluit af met een 5 km-test.');
   return {t, cur, base, f, notes};
@@ -503,7 +505,7 @@ function context(D, R) {
 
 function weekTarget(mon, C) {
   const k = wkDiff(mon, C.cur); if (k < 0) return null;
-  let g = 1; for (let j = 1; j <= k; j++) if (weekInfo(addDays(C.cur, 7*j)).ph.b) g *= 1.06;
+  let g = 1; for (let j = 1; j <= k; j++) if (weekInfo(addDays(C.cur, 7*j)).ph.b) g *= 1.08;
   return clamp(C.base * (k <= 1 ? C.f : 1) * g * weekInfo(mon).ph.m, 45, 400);
 }
 
