@@ -165,6 +165,50 @@ input[type=text],input[type=password],input[type=number],input[type=date],select
 .lg i.pl{border:1.5px dashed var(--acc);background:var(--bg)}
 .lg i.ms{background:var(--surf);position:relative;border:1px solid var(--line)}
 .dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+/* activiteit detail */
+button.card{appearance:none;display:block;width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer}
+.more-l{display:block;margin-top:10px;font-size:14px;font-weight:600;color:var(--acc)}
+.backbtn{appearance:none;border:0;background:none;color:var(--acc);font-weight:600;font-size:15px;padding:4px 0;margin:0 0 4px;cursor:pointer}
+.dhero{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:14px 0 4px}
+.dhero div{background:var(--surf);border-radius:16px;padding:12px 12px 10px}
+.dhero b{display:block;font-size:22px;font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1.15}
+.dhero span{font-size:12px;color:var(--mute);font-weight:600}
+.dsec{margin-top:24px}
+.dsec>h3{margin:0 0 10px;display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.dsec>h3 small{font-size:13px;color:var(--mute);font-weight:600}
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-bottom:10px}
+.tiles div{padding:10px 14px;border-top:1px solid var(--line)}
+.tiles div:nth-child(-n+2){border-top:0}
+.tiles div:nth-child(odd){border-right:1px solid var(--line)}
+.tiles span{display:block;font-size:12px;color:var(--mute);font-weight:600}
+.tiles b{font-size:17px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.gl{font-size:12px;font-weight:700;color:var(--mute);text-transform:uppercase;letter-spacing:.05em;margin:16px 0 6px}
+.gl:first-of-type{margin-top:4px}
+.dmap{height:220px;border-radius:16px;overflow:hidden;background:var(--surf);margin-top:14px;position:relative;z-index:0}
+.dmap svg{width:100%;height:100%}
+.readout{position:sticky;top:-10px;z-index:3;background:rgba(255,255,255,.96);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);padding:9px 0;display:flex;gap:6px 14px;flex-wrap:wrap;font-size:13px;color:var(--mute);border-bottom:1px solid var(--line);min-height:40px;align-items:center}
+.readout b{color:var(--ink);font-variant-numeric:tabular-nums}
+.chw{position:relative;padding:12px 0 6px;touch-action:pan-y;border-bottom:1px solid var(--line);-webkit-user-select:none;user-select:none}
+.chw .hd{display:flex;justify-content:space-between;font-size:13px;font-weight:600;color:var(--mute)}
+.chw .hd b{color:var(--ink)}
+.chw .pl{position:relative;height:96px;margin-top:8px}
+.chw svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.chw .yl{position:absolute;left:0;font-size:10.5px;font-weight:600;color:var(--mute);background:rgba(255,255,255,.85);padding:0 4px;border-radius:4px;line-height:1.5;font-variant-numeric:tabular-nums}
+.chw .cur{position:absolute;top:0;bottom:0;width:1.5px;margin-left:-.75px;background:var(--ink);display:none;pointer-events:none}
+.xax{display:flex;justify-content:space-between;font-size:11px;color:var(--mute);margin-top:6px;font-variant-numeric:tabular-nums}
+table.tb{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums}
+table.tb th{font-size:12px;color:var(--mute);font-weight:600;text-align:right;padding:6px 4px;border-bottom:1px solid var(--line)}
+table.tb td{padding:9px 4px;text-align:right;border-bottom:1px solid var(--line)}
+table.tb th:first-child,table.tb td:first-child{text-align:left}
+table.tb td.bc{width:28%;padding-left:8px}
+.sbar{height:7px;border-radius:4px;background:var(--acc);display:block}
+.zr{display:grid;grid-template-columns:minmax(0,92px) minmax(0,1fr) 50px 36px;gap:10px;align-items:center;font-size:13px;padding:6px 0}
+.zr .tr{height:10px;border-radius:5px;background:var(--surf);overflow:hidden}
+.zr .tr i{display:block;height:100%;border-radius:5px}
+.zr .v{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+.zr .p{text-align:right;color:var(--mute);font-variant-numeric:tabular-nums}
+.zr small{display:block;font-size:11px;color:var(--mute)}
+.ok{color:var(--fris);font-weight:700}.slow{color:#a86c05;font-weight:700}.fast{color:var(--acc);font-weight:700}
 nav{position:fixed;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(5,1fr);background:rgba(255,255,255,.94);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom);z-index:5}
 nav button{appearance:none;border:0;background:none;color:var(--mute);font-size:11px;padding:0 2px;font-weight:600;min-height:62px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
 nav svg{width:23px;height:23px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
@@ -946,9 +990,9 @@ function actCard(a) {
   if (a.kcal) sec.push(Math.round(a.kcal) + ' kcal');
   if (a.load != null) sec.push('belasting ' + Math.round(a.load));
   if (fi >= 0) sec.push('voelde ' + RPEL[fi].toLowerCase());
-  return '<div class="card white"><div class="kicker"><i class="dot" style="background:' + c.c + '"></i>' + esc(typeNl(a.type)) + (a.time ? ' · ' + a.time : '') + '</div>' +
+  return '<button class="card white" data-act="' + esc(a.id) + '"><div class="kicker"><i class="dot" style="background:' + c.c + '"></i>' + esc(typeNl(a.type)) + (a.time ? ' · ' + a.time : '') + '</div>' +
     '<div class="big" style="font-size:22px">' + esc(a.name) + '</div><div class="meta">' + main.map(([v,l]) => '<span><b>' + v + '</b>' + l + '</span>').join('') + '</div>' +
-    (sec.length ? '<p class="note">' + sec.join(' · ') + '</p>' : '') + '</div>';
+    (sec.length ? '<p class="note">' + sec.join(' · ') + '</p>' : '') + '<span class="more-l">Alle details ›</span></button>';
 }
 function planCard(s) {
   const st = status(s), km = estKm(s), today = ymd(C.t);
@@ -967,6 +1011,305 @@ function openAgDay(ds) {
   let body = acts.map(actCard).join('') + (s ? planCard(s) : '');
   if (!acts.length && !s) body = '<p class="mute">' + (ds > ymd(C.t) ? 'Niets gepland. Rustdag.' : 'Geen activiteiten op deze dag.') + '</p>';
   openSheet(sheetHead(DNL[d.getDay()].replace(/^./, c => c.toUpperCase()) + ' ' + d.getDate() + ' ' + MONL[d.getMonth()], acts.length ? acts.length + (acts.length === 1 ? ' activiteit' : ' activiteiten') : showPlan ? 'Gepland' : 'Agenda') + body);
+}
+/* ========== detail van een gedane activiteit ========== */
+const ACTD = {};
+const ZCOL = ['var(--rec)','var(--easy)','var(--steady)','var(--tempo)','var(--thr)','var(--vo2)','var(--spr)'];
+const zoneColors = n => Array.from({length:n}, (_,i) => ZCOL[Math.round(i*(ZCOL.length-1)/Math.max(1,n-1))]);
+const num = x => typeof x === 'number' && isFinite(x);
+const fmt1 = x => x.toFixed(1).replace('.', ',');
+function normStreams(r) {
+  const o = {}, arr = Array.isArray(r) ? r : r && typeof r === 'object' ? Object.entries(r).map(([type, data]) => ({type, data})) : [];
+  for (const s of arr) {
+    if (!s || !s.type || !Array.isArray(s.data) || !s.data.length) continue;
+    if (s.type === 'latlng') o.latlng = Array.isArray(s.data[0]) ? s.data : Array.isArray(s.data2) ? s.data.map((v,i) => [v, s.data2[i]]) : null;
+    else o[s.type] = s.data;
+  }
+  return o;
+}
+async function getDetail(b) {
+  if (ACTD[b.id]) return ACTD[b.id];
+  let r;
+  if (S.demo || !S.apiKey) r = demoDetail(b);
+  else {
+    const id = encodeURIComponent(b.id);
+    const [a, st] = await Promise.all([
+      req('/activity/' + id + '?intervals=true'),
+      req('/activity/' + id + '/streams.json?types=time,distance,heartrate,velocity_smooth,altitude,cadence,watts,latlng,temp').catch(() => [])
+    ]);
+    r = {a: a || {}, st: normStreams(st)};
+  }
+  return (ACTD[b.id] = r);
+}
+function demoDetail(b) {
+  let seed = String(b.id).split('').reduce((a,c) => a + c.charCodeAt(0), 7); const rnd = () => (seed = (seed*16807) % 2147483647) / 2147483647;
+  const sec = Math.round(b.min*60), dt = 2, n = Math.floor(sec/dt), isRun = b.cat === 'run', isRide = b.cat === 'fiets', strength = b.cat === 'kracht';
+  const vb = b.km > 0 ? b.km*1000/sec : 0, ivl = /Interval/i.test(b.name);
+  const segs = [];
+  if (ivl) { let t = 0; segs.push({type:'RECOVERY', s:0, e:t += 720/dt, f:.9}); for (let k = 0; k < 8; k++) { segs.push({type:'WORK', s:t, e:t += 60/dt, f:1.32}); segs.push({type:'RECOVERY', s:t, e:t += 90/dt, f:.78}); } segs.push({type:'RECOVERY', s:t, e:n, f:.85}); }
+  const fAt = i => { const g = segs.find(x => i >= x.s && i < x.e); return g ? g.f : 1; };
+  const time = [], distance = [], v = [], hr = [], alt = [], cad = [], watts = [], ll = [];
+  let d = 0, h = strength ? 95 : 105;
+  const R = Math.max(150, b.km*1000/(2*Math.PI));
+  for (let i = 0; i < n; i++) {
+    const f = ivl ? fAt(i) : 1 + Math.sin(i/90)*.03, sp = vb*f*(0.97 + rnd()*.06);
+    const tgt = strength ? (Math.floor(i*dt/130) % 2 === 0 && (i*dt) % 130 < 45 ? 138 : 102) : (isRide ? 132 : 142) + (f-1)*70 + i/n*8;
+    h += (tgt - h)*0.06 + (rnd()-.5)*1.2;
+    time.push(i*dt); hr.push(Math.round(h));
+    if (!strength) {
+      d += sp*dt; distance.push(+d.toFixed(1)); v.push(+sp.toFixed(2));
+      alt.push(+(2 + 4*Math.sin(d/700) + 1.5*Math.sin(d/230)).toFixed(1));
+      if (isRun) cad.push(Math.round(166 + (f-1)*30 + rnd()*4)); else if (isRide) { cad.push(Math.round(84 + rnd()*8)); watts.push(Math.round(165 + Math.sin(d/400)*40 + rnd()*30)); }
+      const an = d/R; ll.push([52.0116 + R*Math.sin(an)/111320, 4.3571 + R*(1-Math.cos(an))/68530]);
+    }
+  }
+  const st = {time, heartrate: hr};
+  if (!strength) Object.assign(st, {distance, velocity_smooth: v, altitude: alt, latlng: ll, cadence: cad.length ? cad : undefined, watts: watts.length ? watts : undefined});
+  const bounds = [130,145,155,165,175,185,200], zt = bounds.map(() => 0);
+  hr.forEach(x => { const k = bounds.findIndex(bd => x <= bd); zt[k < 0 ? bounds.length-1 : k] += dt; });
+  const a = {distance: b.km*1000, moving_time: sec, elapsed_time: sec + 40, average_heartrate: b.hr, max_heartrate: Math.max(...hr), total_elevation_gain: b.elev, total_elevation_loss: b.elev ? b.elev - 2 : null,
+    calories: b.kcal, icu_training_load: b.load, icu_intensity: isRun ? 78 : 62, trimp: Math.round(b.min*1.6), icu_efficiency_factor: isRun ? 1.38 : null, decoupling: isRun ? 3.4 : null,
+    average_cadence: cad.length ? mean(cad) : null, average_temp: 7, device_name: 'Garmin Forerunner 965', icu_hr_zones: bounds, icu_hr_zone_times: zt, athlete_max_hr: 195, icu_rpe: b.rpe,
+    max_speed: v.length ? Math.max(...v) : null, average_watts: watts.length ? mean(watts) : null, icu_weighted_avg_watts: watts.length ? Math.round(mean(watts)*1.05) : null};
+  if (segs.length) a.icu_intervals = segs.map(g => { const s = Math.round(g.s), e = Math.min(n-1, Math.round(g.e)-1); return {type: g.type, start_index: s, end_index: e, distance: distance[e]-distance[s], moving_time: time[e]-time[s], average_speed: (distance[e]-distance[s])/Math.max(1, time[e]-time[s]), average_heartrate: mean(hr.slice(s, e+1))}; });
+  return {a, st};
+}
+
+// gemiddelde per emmer, voor snelle grafieken
+function bucket(arr, N, f) {
+  if (!arr) return null;
+  const L = arr.length, out = [];
+  for (let b = 0; b < N; b++) { const s = Math.floor(b*L/N), e = Math.max(s+1, Math.floor((b+1)*L/N)); out.push(mean(arr.slice(s, e).map(f || (x => x)))); }
+  return out;
+}
+function makeSplits(st, unit) {
+  const D = st.distance, T = st.time; if (!D || !T || D.length < 10) return [];
+  const H = st.heartrate, A = st.altitude, out = []; let i0 = 0, next = unit;
+  for (let i = 1; i < D.length; i++) {
+    const last = i === D.length - 1;
+    if (D[i] >= next || last) {
+      const dd = D[i] - D[i0], tt = T[i] - T[i0];
+      if (last && dd < 100) break;
+      let up = 0, dn = 0; if (A) for (let j = i0+1; j <= i; j++) { const x = A[j] - A[j-1]; if (num(x)) { if (x > 0) up += x; else dn -= x; } }
+      out.push({d: dd, t: tt, hr: H ? mean(H.slice(i0, i+1)) : null, up, dn, part: last && dd < unit*0.95});
+      i0 = i; next += unit;
+    }
+  }
+  return out;
+}
+function zoneTimes(a, st) {
+  const bounds = Array.isArray(a.icu_hr_zones) ? a.icu_hr_zones.filter(num) : null;
+  let t = Array.isArray(a.icu_hr_zone_times) ? a.icu_hr_zone_times.map(x => num(x) ? x : (x && num(x.secs) ? x.secs : 0)) : null;
+  if ((!t || !t.some(x => x > 0)) && bounds && bounds.length && st.heartrate && st.time) {
+    t = bounds.map(() => 0);
+    for (let i = 1; i < st.heartrate.length; i++) { const x = st.heartrate[i], k = bounds.findIndex(bd => x <= bd); t[k < 0 ? bounds.length-1 : k] += Math.min(10, st.time[i] - st.time[i-1]); }
+  }
+  return t && t.some(x => x > 0) ? {t, bounds} : null;
+}
+function zoneRows(t, labels, colors) {
+  const tot = t.reduce((s,x) => s+x, 0) || 1, mx = Math.max(...t) || 1;
+  return t.map((x,i) => '<div class="zr"><span><b>Zone ' + (i+1) + '</b>' + (labels && labels[i] ? '<small>' + labels[i] + '</small>' : '') + '</span><span class="tr"><i style="width:' + (x/mx*100).toFixed(1) + '%;background:' + colors[i] + '"></i></span><span class="v">' + mmss(x) + '</span><span class="p">' + Math.round(x/tot*100) + '%</span></div>').join('');
+}
+const tiles = (title, rows) => { rows = rows.filter(r => r && r[1] != null && r[1] !== ''); return rows.length ? '<div class="gl">' + title + '</div><div class="tiles">' + rows.map(([l,v]) => '<div><span>' + l + '</span><b>' + v + '</b></div>').join('') + (rows.length % 2 ? '<div></div>' : '') + '</div>' : ''; };
+
+let DS = null; // grafiekdata van het open detailscherm
+async function openActivity(id, back) {
+  const b = AGLIST.find(x => String(x.id) === String(id)) || (D.acts || []).find(x => String(x.id) === String(id)); if (!b) return;
+  const head = (back ? '<button class="backbtn" data-agback="' + back + '">‹ ' + fdate(back) + '</button>' : '') +
+    sheetHead(esc(b.name), '<i class="dot" style="background:' + CAT[b.cat].c + '"></i>' + esc(typeNl(b.type)) + ' · ' + fdate(b.date) + (b.time ? ' · ' + b.time : ''));
+  openSheet(head + '<p class="mute" style="margin-top:20px">Gegevens laden…</p>');
+  let det;
+  try { det = await getDetail(b); } catch(e) { $('#sheetBody').innerHTML = head + '<div class="banner err">' + esc(e.message) + '</div>'; return; }
+  if (!document.body.classList.contains('open-sheet')) return;
+  $('#sheetBody').innerHTML = head + detailHtml(b, det);
+  wireDetail(det);
+}
+function detailHtml(b, det) {
+  const a = det.a || {}, st = det.st || {}, isRun = b.cat === 'run', isRide = b.cat === 'fiets';
+  const km = (num(a.distance) ? a.distance : b.km*1000) / 1000, mov = num(a.moving_time) ? a.moving_time : b.min*60, ela = num(a.elapsed_time) ? a.elapsed_time : null;
+  const hasDist = km >= 0.3, spd = hasDist && mov ? km*1000/mov : null;
+  const usePaceX = hasDist && !isRide && !/Swim/i.test(b.type);
+  const avgHr = num(a.average_heartrate) ? a.average_heartrate : b.hr, maxHr = num(a.max_heartrate) ? a.max_heartrate : b.hrmax;
+  // cadans: hardlopen in stappen per minuut
+  const cad0 = num(a.average_cadence) && a.average_cadence > 0 ? a.average_cadence : st.cadence ? mean(st.cadence.filter(x => x > 0)) : null;
+  const cadMul = isRun && cad0 && cad0 < 120 ? 2 : 1, cadU = isRun ? 'spm' : 'rpm', avgCad = cad0 ? cad0*cadMul : null;
+  const maxCad = st.cadence ? Math.max(...st.cadence.filter(num))*cadMul : null;
+  const stride = num(a.average_stride) && a.average_stride > 0 ? a.average_stride : isRun && spd && avgCad ? spd/(avgCad/60) : null;
+  const alts = st.altitude ? st.altitude.filter(num) : [];
+  const splits = hasDist ? makeSplits(st, isRide ? 5000 : 1000) : [];
+  const full = splits.filter(s => !s.part), best = full.length ? full.reduce((m,s) => s.t/s.d < m.t/m.d ? s : m) : null;
+  const rpe = S.fb[b.id] ?? a.icu_rpe ?? b.rpe, fi = rpeIdx(rpe);
+  const maxRef = num(a.athlete_max_hr) ? a.athlete_max_hr : null;
+
+  // 1. kerncijfers
+  const hero = hasDist
+    ? [[km.toFixed(2).replace('.', ','), 'km'], [mmss(mov), 'tijd'], usePaceX ? [pace(1000/spd), 'gem. /km'] : [fmt1(spd*3.6), 'gem. km/u']]
+    : [[mmss(mov), 'tijd'], [avgHr ? Math.round(avgHr) : '–', 'gem. hartslag'], [a.calories || b.kcal ? Math.round(a.calories || b.kcal) : '–', 'kcal']];
+  let h = '<div class="dhero">' + hero.map(([v,l]) => '<div><b>' + v + '</b><span>' + l + '</span></div>').join('') + '</div>';
+
+  // 2. kaart
+  const ll = st.latlng ? st.latlng.filter(p => p && num(p[0]) && num(p[1]) && (p[0] || p[1])) : [];
+  if (ll.length > 10) h += '<div class="dmap" id="dmap"></div>';
+
+  // 3. statistieken, in vaste volgorde
+  let t = '';
+  if (hasDist) t += tiles(usePaceX ? 'Tempo' : 'Snelheid', usePaceX ? [
+    ['Gem. tempo', pace(1000/spd) + ' /km'],
+    ela && ela - mov > 30 ? ['Tempo incl. stilstaan', pace(ela/km) + ' /km'] : null,
+    best && splits.length > 1 ? ['Snelste km', pace(best.t/best.d*1000) + ' /km'] : null,
+    num(a.gap) && a.gap > 0.5 ? ['Tempo gecorrigeerd voor hoogte', pace(1000/a.gap) + ' /km'] : null,
+    num(a.max_speed) && a.max_speed > spd ? ['Snelste moment', pace(1000/a.max_speed) + ' /km'] : null
+  ] : [
+    ['Gem. snelheid', fmt1(spd*3.6) + ' km/u'],
+    num(a.max_speed) && a.max_speed > spd ? ['Max. snelheid', fmt1(a.max_speed*3.6) + ' km/u'] : null
+  ]);
+  t += tiles('Tijd', [['Bewegingstijd', mmss(mov)], ela ? ['Totale tijd', mmss(ela)] : null]);
+  t += tiles('Hartslag', [
+    avgHr ? ['Gemiddeld', Math.round(avgHr) + ' bpm'] : null,
+    maxHr ? ['Maximaal', Math.round(maxHr) + ' bpm'] : null,
+    avgHr && maxRef ? ['Gem. % van je max', Math.round(avgHr/maxRef*100) + '%'] : null,
+    num(a.decoupling) && isRun ? ['Hartslagdrift', fmt1(a.decoupling) + '%'] : null
+  ]);
+  if (isRun) t += tiles('Loopdynamiek', [avgCad ? ['Gem. cadans', Math.round(avgCad) + ' spm'] : null, maxCad ? ['Max. cadans', Math.round(maxCad) + ' spm'] : null, stride ? ['Gem. paslengte', stride.toFixed(2).replace('.', ',') + ' m'] : null]);
+  else if (avgCad) t += tiles('Cadans', [['Gem. cadans', Math.round(avgCad) + ' ' + cadU], maxCad ? ['Max. cadans', Math.round(maxCad) + ' ' + cadU] : null]);
+  const aw = num(a.icu_average_watts) ? a.icu_average_watts : num(a.average_watts) ? a.average_watts : st.watts ? mean(st.watts) : null;
+  if (aw) t += tiles('Vermogen', [['Gem. vermogen', Math.round(aw) + ' W'], num(a.icu_weighted_avg_watts) ? ['Genormaliseerd vermogen', Math.round(a.icu_weighted_avg_watts) + ' W'] : null, st.watts ? ['Max. vermogen', Math.round(Math.max(...st.watts.filter(num))) + ' W'] : null]);
+  if (hasDist) t += tiles('Hoogte', [
+    num(a.total_elevation_gain) ? ['Stijgen', Math.round(a.total_elevation_gain) + ' m'] : null,
+    num(a.total_elevation_loss) ? ['Dalen', Math.round(a.total_elevation_loss) + ' m'] : null,
+    alts.length ? ['Laagste punt', Math.round(Math.min(...alts)) + ' m'] : null,
+    alts.length ? ['Hoogste punt', Math.round(Math.max(...alts)) + ' m'] : null
+  ]);
+  t += tiles('Belasting', [
+    num(a.icu_training_load) ? ['Trainingsbelasting', Math.round(a.icu_training_load)] : b.load != null ? ['Trainingsbelasting', Math.round(b.load)] : null,
+    num(a.icu_intensity) ? ['Intensiteit', Math.round(a.icu_intensity) + '%'] : null,
+    num(a.trimp) ? ['TRIMP', Math.round(a.trimp)] : null,
+    num(a.icu_efficiency_factor) ? ['Efficiëntie', a.icu_efficiency_factor.toFixed(2).replace('.', ',')] : null,
+    a.calories || b.kcal ? ['Calorieën', Math.round(a.calories || b.kcal) + ' kcal'] : null,
+    fi >= 0 ? ['Gevoel', RPEL[fi]] : null
+  ]);
+  t += tiles('Overig', [num(a.average_temp) ? ['Temperatuur', Math.round(a.average_temp) + ' °C'] : null, a.device_name ? ['Apparaat', esc(a.device_name)] : null]);
+  h += '<div class="dsec"><h3>Statistieken</h3>' + t + '</div>';
+  if (b.cat === 'kracht') h += '<p class="note">Sets, herhalingen en gewichten komen niet door via intervals.icu, die staan alleen in Garmin Connect.</p>';
+
+  // 4. grafieken
+  const L = (st.time || st.heartrate || []).length;
+  if (L > 20) {
+    const N = Math.min(L, 360), useD = hasDist && st.distance && st.distance.length === L;
+    const T = st.time || Array.from({length:L}, (_,i) => i);
+    DS = {N, x: bucket(useD ? st.distance : T, N), t: bucket(T, N), useD, ll: ll.length > 10 ? bucket(st.latlng.map(p => p && p[0]), N) : null, lg: ll.length > 10 ? bucket(st.latlng.map(p => p && p[1]), N) : null, ch: []};
+    const V = st.velocity_smooth;
+    if (V && hasDist) DS.ch.push(usePaceX
+      ? {n:'Tempo', u:'/km', v: bucket(V, N).map(x => x > 0.9 ? 1000/x : null), f: pace, inv: true, c:'var(--acc)', avg: pace(1000/spd)}
+      : {n:'Snelheid', u:'km/u', v: bucket(V, N).map(x => x*3.6), f: fmt1, c:'var(--acc)', avg: fmt1(spd*3.6)});
+    const hz = zoneTimes(a, st);
+    if (st.heartrate) DS.ch.push({n:'Hartslag', u:'bpm', v: bucket(st.heartrate, N, x => x > 30 ? x : null), f: x => Math.round(x), c:'var(--vo2)', zones: hz && hz.bounds, avg: avgHr ? Math.round(avgHr) : ''});
+    if (alts.length && Math.max(...alts) - Math.min(...alts) >= 3) DS.ch.push({n:'Hoogte', u:'m', v: bucket(st.altitude, N), f: x => Math.round(x), c:'#8a94a6', avg: '', minSpan: 10});
+    if (st.cadence) DS.ch.push({n:'Cadans', u: cadU, v: bucket(st.cadence, N, x => x > 0 ? x*cadMul : null), f: x => Math.round(x), c:'#7c5cd6', avg: avgCad ? Math.round(avgCad) : ''});
+    if (st.watts) DS.ch.push({n:'Vermogen', u:'W', v: bucket(st.watts, N, x => x > 0 ? x : null), f: x => Math.round(x), c:'#f08a3c', avg: aw ? Math.round(aw) : ''});
+    DS.ch = DS.ch.filter(c => c.v.filter(x => x != null).length > 8);
+    if (DS.ch.length) {
+      const xl = i => DS.useD ? fmt1(DS.x[i]/1000) + ' km' : mmss(DS.x[i]);
+      h += '<div class="dsec"><h3>Grafieken</h3><div class="readout" id="dread">Schuif met je vinger over een grafiek</div><div id="dcharts">' + DS.ch.map((c,k) => chartHtml(c, k)).join('') + '</div>' +
+        '<div class="xax"><span>0</span><span>' + xl(Math.floor((N-1)/2)) + '</span><span>' + xl(N-1) + '</span></div></div>';
+    }
+  } else DS = null;
+
+  // 5. splits
+  if (splits.length > 1) {
+    const fastest = Math.min(...splits.map(s => s.t/s.d)), slowest = Math.max(...splits.map(s => s.t/s.d));
+    h += '<div class="dsec"><h3>Splits <small>per ' + (isRide ? '5 km' : 'km') + '</small></h3><table class="tb"><tr><th>' + (isRide ? 'km' : 'Km') + '</th><th>' + (usePaceX ? 'Tempo' : 'km/u') + '</th><th></th><th>HS</th><th>Hoogte</th></tr>' +
+      splits.map((s,i) => { const p = s.t/s.d, w = slowest > fastest ? 35 + 65*(slowest - p)/(slowest - fastest) : 100;
+        return '<tr><td>' + (s.part ? fmt1((isRide ? i*5 : i) + s.d/1000) : (isRide ? (i+1)*5 : i+1)) + '</td><td><b>' + (usePaceX ? pace(p*1000) : fmt1(3.6/p)) + '</b></td><td class="bc"><span class="sbar" style="width:' + w.toFixed(0) + '%;' + (best === s ? '' : 'opacity:.45') + '"></span></td><td>' + (s.hr ? Math.round(s.hr) : '–') + '</td><td class="mute">' + (st.altitude ? '+' + Math.round(s.up) + ' / −' + Math.round(s.dn) : '–') + '</td></tr>'; }).join('') + '</table></div>';
+  }
+
+  // 6. rondes / intervallen, met je plan ernaast
+  const iv = Array.isArray(a.icu_intervals) ? a.icu_intervals.filter(x => x && (x.type === 'WORK' || x.type === 'RECOVERY') && num(x.moving_time) && x.moving_time > 0) : [];
+  if (iv.length >= 2) {
+    const s = sessionOn(b.date), main = s && s.type === 'Intervallen' ? s.blocks.find(x => x.label === 'Main set') : null, z = main ? main.steps[0].z : null;
+    const rg = z && VD && usePaceX ? paceRange(z) : null;
+    let w = 0;
+    h += '<div class="dsec"><h3>Rondes' + (rg ? ' <small>doel snel ' + pace(rg[1]) + '–' + pace(rg[0]) + ' /km</small>' : '') + '</h3><table class="tb"><tr><th>#</th><th>Tijd</th><th>Afstand</th><th>' + (usePaceX ? 'Tempo' : 'km/u') + '</th><th>HS</th>' + (rg ? '<th></th>' : '') + '</tr>' +
+      iv.map((x,i) => { const work = x.type === 'WORK', p = num(x.average_speed) && x.average_speed > 0.5 ? x.average_speed : num(x.distance) ? x.distance/x.moving_time : null;
+        let ev = ''; if (rg && work && p) { const ps = 1000/p; ev = ps > rg[0] + 3 ? '<span class="slow">langzamer</span>' : ps < rg[1] - 3 ? '<span class="fast">sneller</span>' : '<span class="ok">✓ op doel</span>'; }
+        return '<tr' + (work ? '' : ' class="mute"') + '><td>' + (work ? '<b style="color:var(--vo2)">Snel ' + (++w) + '</b>' : 'Herstel') + '</td><td>' + mmss(x.moving_time) + '</td><td>' + (num(x.distance) ? (x.distance >= 1000 ? fmt1(x.distance/1000) + ' km' : Math.round(x.distance) + ' m') : '–') + '</td><td>' + (p ? (usePaceX ? pace(1000/p) : fmt1(p*3.6)) : '–') + '</td><td>' + (num(x.average_heartrate) ? Math.round(x.average_heartrate) : '–') + '</td>' + (rg ? '<td>' + ev + '</td>' : '') + '</tr>'; }).join('') + '</table></div>';
+  }
+
+  // 7. tijd in zones
+  const hz = zoneTimes(a, st);
+  if (hz) {
+    const bd = hz.bounds, labels = bd ? hz.t.map((_,i) => i === 0 ? 'tot ' + bd[0] + ' bpm' : i === hz.t.length - 1 && i >= bd.length - 1 ? 'vanaf ' + (bd[i-1] + 1) + ' bpm' : (bd[i-1] + 1) + '–' + bd[i] + ' bpm') : null;
+    h += '<div class="dsec"><h3>Tijd in hartslagzones</h3>' + zoneRows(hz.t, labels, zoneColors(hz.t.length)) + '</div>';
+  }
+  const pz = Array.isArray(a.pace_zone_times) ? a.pace_zone_times.map(x => num(x) ? x : 0) : null;
+  if (usePaceX && pz && pz.some(x => x > 0)) h += '<div class="dsec"><h3>Tijd in tempozones</h3>' + zoneRows(pz, null, zoneColors(pz.length)) + '</div>';
+  return h;
+}
+function chartHtml(c, k) {
+  const v = c.v.filter(x => x != null).sort((a,b) => a-b);
+  let lo = v[Math.floor(v.length*.02)], hi = v[Math.max(0, Math.ceil(v.length*.98) - 1)];
+  const span = c.minSpan || (c.inv ? 30 : 4);
+  if (hi - lo < span) { const m = (hi + lo)/2; lo = m - span/2; hi = m + span/2; }
+  const pad = (hi - lo)*.1; lo -= pad; hi += pad; c.lo = lo; c.hi = hi;
+  const N = c.v.length, Wd = 1000, H = 100, X = i => (i/(N-1)*Wd).toFixed(1);
+  const Y = x => { let f = (clamp(x, lo, hi) - lo)/(hi - lo); if (c.inv) f = 1 - f; return (H - f*H).toFixed(1); };
+  const segs = []; let cur = null;
+  c.v.forEach((x,i) => { if (x == null) { cur = null; return; } if (!cur) segs.push(cur = []); cur.push(i); });
+  const line = segs.map(s => s.map((i,j) => (j ? 'L' : 'M') + X(i) + ' ' + Y(c.v[i])).join('')).join('');
+  const area = segs.map(s => 'M' + X(s[0]) + ' ' + H + s.map(i => 'L' + X(i) + ' ' + Y(c.v[i])).join('') + 'L' + X(s[s.length-1]) + ' ' + H + 'Z').join('');
+  let paint = c.c, defs = '';
+  if (c.zones && c.zones.length) {
+    const cols = zoneColors(c.zones.length), off = x => clamp((x - lo)/(hi - lo), 0, 1);
+    let stops = '<stop offset="0" stop-color="' + cols[0] + '"/>';
+    c.zones.forEach((bd, i) => { if (i < cols.length - 1) { const o = off(bd + .5); stops += '<stop offset="' + o.toFixed(3) + '" stop-color="' + cols[i] + '"/><stop offset="' + o.toFixed(3) + '" stop-color="' + cols[i+1] + '"/>'; } });
+    stops += '<stop offset="1" stop-color="' + cols[cols.length-1] + '"/>';
+    defs = '<defs><linearGradient id="zg' + k + '" gradientUnits="userSpaceOnUse" x1="0" y1="' + H + '" x2="0" y2="0">' + stops + '</linearGradient></defs>';
+    paint = 'url(#zg' + k + ')';
+  }
+  const top = c.inv ? lo : hi, bot = c.inv ? hi : lo;
+  return '<div class="chw" data-k="' + k + '"><div class="hd"><span>' + c.n + '</span><span>' + (c.avg !== '' ? 'gem. <b>' + c.avg + '</b> ' + c.u : '') + '</span></div><div class="pl">' +
+    '<svg viewBox="0 0 ' + Wd + ' ' + H + '" preserveAspectRatio="none" aria-hidden="true">' + defs +
+    '<line x1="0" x2="' + Wd + '" y1="0" y2="0" stroke="var(--line)" vector-effect="non-scaling-stroke"/><line x1="0" x2="' + Wd + '" y1="' + H + '" y2="' + H + '" stroke="var(--line)" vector-effect="non-scaling-stroke"/>' +
+    '<path d="' + area + '" fill="' + paint + '" opacity=".16"/><path d="' + line + '" fill="none" stroke="' + paint + '" stroke-width="2" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg>' +
+    '<span class="yl" style="top:-8px">' + c.f(top) + '</span><span class="yl" style="bottom:-8px">' + c.f(bot) + '</span><i class="cur"></i></div></div>';
+}
+let LP = null, MAP = null, MAPDOT = null;
+const loadLeaflet = () => LP || (LP = new Promise((res, rej) => {
+  const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'; document.head.appendChild(l);
+  const s = document.createElement('script'); s.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'; s.onload = () => res(window.L); s.onerror = () => { LP = null; rej(new Error('kaart niet geladen')); }; document.head.appendChild(s);
+}));
+function wireDetail(det) {
+  MAP = null; MAPDOT = null;
+  const el = $('#dmap');
+  if (el) {
+    const pts = det.st.latlng.filter(p => p && num(p[0]) && num(p[1]) && (p[0] || p[1]));
+    const step = Math.max(1, Math.floor(pts.length/1500)), P = pts.filter((_,i) => i % step === 0);
+    // eerst een simpele lijn, daarna de echte kaart
+    const la = P.map(p => p[0]), lo = P.map(p => p[1]), a0 = Math.min(...la), a1 = Math.max(...la), o0 = Math.min(...lo), o1 = Math.max(...lo), k = Math.cos(a0*Math.PI/180);
+    const sc = Math.max((o1-o0)*k, a1-a0) || 1;
+    el.innerHTML = '<svg viewBox="-5 -5 110 110" preserveAspectRatio="xMidYMid meet"><polyline fill="none" stroke="#1d3fbf" stroke-width="1.6" stroke-linejoin="round" points="' + P.map(p => ((p[1]-o0)*k/sc*100).toFixed(2) + ',' + (100 - (p[0]-a0)/sc*100).toFixed(2)).join(' ') + '"/></svg>';
+    loadLeaflet().then(L => {
+      if (!document.body.contains(el)) return;
+      el.innerHTML = '';
+      MAP = L.map(el, {zoomControl: false, scrollWheelZoom: false, attributionControl: true});
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {attribution: '© OpenStreetMap © CARTO', subdomains: 'abcd', maxZoom: 19}).addTo(MAP);
+      const line = L.polyline(P, {color: '#1d3fbf', weight: 4, opacity: .9}).addTo(MAP);
+      L.circleMarker(P[0], {radius: 6, color: '#fff', weight: 2, fillColor: '#1f9d61', fillOpacity: 1}).addTo(MAP);
+      L.circleMarker(P[P.length-1], {radius: 6, color: '#fff', weight: 2, fillColor: '#d1453b', fillOpacity: 1}).addTo(MAP);
+      MAP.fitBounds(line.getBounds(), {padding: [20, 20]});
+      setTimeout(() => { if (MAP) { MAP.invalidateSize(); MAP.fitBounds(line.getBounds(), {padding: [20, 20]}); } }, 350);
+    }).catch(() => {});
+  }
+  const box = $('#dcharts'); if (!box || !DS) return;
+  const move = e => {
+    const r = box.querySelector('.pl').getBoundingClientRect(), f = clamp((e.clientX - r.left)/r.width, 0, 1), i = Math.round(f*(DS.N-1));
+    box.querySelectorAll('.cur').forEach(c => { c.style.display = 'block'; c.style.left = (f*100) + '%'; });
+    const xs = DS.useD ? '<b>' + fmt1(DS.x[i]/1000) + ' km</b> · ' + mmss(DS.t[i]) : '<b>' + mmss(DS.t[i]) + '</b>';
+    $('#dread').innerHTML = xs + DS.ch.map(c => c.v[i] != null ? '<span><span style="color:' + (c.zones ? 'var(--vo2)' : c.c) + '">●</span> <b>' + c.f(c.v[i]) + '</b> ' + c.u + '</span>' : '').join('');
+    if (MAP && DS.ll && DS.ll[i] != null && window.L) { const p = [DS.ll[i], DS.lg[i]]; if (!MAPDOT) MAPDOT = L.circleMarker(p, {radius: 7, color: '#fff', weight: 3, fillColor: '#0f1729', fillOpacity: 1}).addTo(MAP); else MAPDOT.setLatLng(p); }
+  };
+  box.addEventListener('pointermove', move);
+  box.addEventListener('pointerdown', move);
 }
 const agGo = n => { AGM = new Date(AGM.getFullYear(), AGM.getMonth() + n, 1); renderAgenda(); };
 {
@@ -1027,6 +1370,8 @@ function applyChange(msg) { rebuild(); renderAll(); closeSheet(); autoPush(msg);
 document.addEventListener('click', async e => {
   const t = e.target.closest('button'); if (!t) { if (e.target.id === 'scrim') closeSheet(); return; }
   if (t.classList.contains('xbtn')) return closeSheet();
+  if (t.dataset.act) return openActivity(t.dataset.act, AGSEL);
+  if (t.dataset.agback) return openAgDay(t.dataset.agback);
   if (t.dataset.open) return openWorkout(t.dataset.open);
   if (t.dataset.move) return openMove(t.dataset.move);
   if (t.dataset.to) {
