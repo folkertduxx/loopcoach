@@ -121,7 +121,7 @@ header{padding:calc(env(safe-area-inset-top) + 18px) 0 6px}
 .wbars .v{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
 /* settings */
 label.f{display:block;font-weight:600;margin:16px 0 6px;font-size:15px}
-input[type=text],input[type=password],input[type=number],select{width:100%;font:16px Inter,sans-serif;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);min-height:50px}
+input[type=text],input[type=password],input[type=number],input[type=date],select{width:100%;font:16px Inter,sans-serif;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);min-height:50px}
 .days{display:flex;gap:6px;flex-wrap:wrap}
 .days label{position:relative}
 .days input{position:absolute;opacity:0;pointer-events:none}
@@ -135,8 +135,38 @@ input[type=text],input[type=password],input[type=number],select{width:100%;font:
 .banner{background:var(--acc2);color:var(--ink);padding:12px 14px;border-radius:14px;font-size:14px;margin:8px 0 6px}
 .banner.err{background:#fbe7e5}
 /* nav */
-nav{position:fixed;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(4,1fr);background:rgba(255,255,255,.94);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom);z-index:5}
-nav button{appearance:none;border:0;background:none;color:var(--mute);font-size:12px;font-weight:600;min-height:62px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+/* agenda */
+.agtop{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:14px 0 10px}
+.agtop h2{margin:0}
+.agnav{display:flex;gap:8px}
+.agbtn{appearance:none;border:0;background:var(--surf);width:40px;height:40px;border-radius:50%;cursor:pointer;font-size:22px;line-height:1;font-weight:600;color:var(--ink)}
+.mchips{display:flex;gap:6px;overflow-x:auto;margin:0 -18px 12px;padding:2px 18px 4px;scrollbar-width:none;align-items:center}
+.mchips::-webkit-scrollbar{display:none}
+.mchips button{appearance:none;border:1px solid var(--line);background:var(--bg);border-radius:99px;padding:6px 15px;font-weight:600;font-size:14px;min-height:38px;cursor:pointer;flex:none;color:var(--ink)}
+.mchips button.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.mchips .yr{font-weight:800;font-size:14px;flex:none;padding:0 4px}
+.calh,.cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));margin:0 -14px}
+.calh span{font-size:12px;font-weight:600;color:var(--mute);text-align:center;padding:4px 0 8px}
+.cal{border-top:1px solid var(--line);touch-action:pan-y}
+.cd{appearance:none;border:0;background:none;text-align:left;min-height:88px;padding:5px 2px 6px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);cursor:pointer;display:flex;flex-direction:column;gap:3px;align-items:stretch;font:inherit;color:inherit}
+.cd:nth-child(7n){border-right:0}
+.cd .n{font-size:13px;font-weight:600;width:26px;height:26px;display:grid;place-items:center;border-radius:50%;margin:0 auto 1px;font-variant-numeric:tabular-nums}
+.cd.out .n{color:#b4bcc9}
+.cd.out .ev{opacity:.45}
+.cd.today .n{background:var(--acc);color:#fff}
+.cd.sel{background:var(--surf)}
+.ev{display:block;font-size:10px;font-weight:700;line-height:1.3;padding:2px 3px;border-radius:5px;white-space:nowrap;overflow:hidden;text-overflow:clip;color:#fff;letter-spacing:-.01em}
+.ev.plan{background:var(--bg)!important;border:1.5px dashed currentColor;padding:1px 2px}
+.ev.miss{background:var(--surf)!important;color:var(--mute);text-decoration:line-through}
+.cd .more{font-size:10px;color:var(--mute);font-weight:600;padding-left:3px}
+.lg{display:flex;gap:8px 14px;flex-wrap:wrap;font-size:13px;color:var(--mute);margin-top:14px}
+.lg span{display:inline-flex;align-items:center;gap:6px}
+.lg i{width:12px;height:12px;border-radius:4px;display:inline-block}
+.lg i.pl{border:1.5px dashed var(--acc);background:var(--bg)}
+.lg i.ms{background:var(--surf);position:relative;border:1px solid var(--line)}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+nav{position:fixed;left:0;right:0;bottom:0;display:grid;grid-template-columns:repeat(5,1fr);background:rgba(255,255,255,.94);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom);z-index:5}
+nav button{appearance:none;border:0;background:none;color:var(--mute);font-size:11px;padding:0 2px;font-weight:600;min-height:62px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
 nav svg{width:23px;height:23px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 nav button.on{color:var(--acc)}
 /* sheet */
@@ -190,6 +220,16 @@ nav button.on{color:var(--acc)}
     <p class="note" id="syncNote"></p>
   </section>
 
+  <!-- AGENDA -->
+  <section class="view" id="v-agenda">
+    <div class="agtop"><h2 id="agTitle">Agenda</h2><div class="agnav"><button class="agbtn" data-agstep="-1" aria-label="Vorige maand">‹</button><button class="agbtn" data-agstep="1" aria-label="Volgende maand">›</button></div></div>
+    <div class="mchips" id="agChips"></div>
+    <div class="calh" aria-hidden="true"><span>M</span><span>D</span><span>W</span><span>D</span><span>V</span><span>Z</span><span>Z</span></div>
+    <div class="cal" id="agGrid"></div>
+    <div class="lg" id="agLegend"></div>
+    <p class="note" id="agNote"></p>
+  </section>
+
   <!-- VOORTGANG -->
   <section class="view" id="v-prog">
     <h2 style="margin-top:14px">Voorspelde racetijden</h2>
@@ -224,6 +264,12 @@ nav button.on{color:var(--acc)}
       <p class="note">Hiermee worden je tempozones nauwkeuriger. Leeg laten: de app schat ze uit je runs.</p>
       <label class="f" for="fMin">Startvolume (minuten per week)</label>
       <input type="number" id="fMin" min="45" max="400" step="5" inputmode="numeric">
+      <label class="sw"><input type="checkbox" id="fGoal"> Werk naar een doelafstand</label>
+      <label class="f" for="fGoalKm">Doelafstand (km)</label>
+      <input type="number" id="fGoalKm" min="5" max="42" step="0.5" inputmode="decimal">
+      <label class="f" for="fGoalDate">Datum doelrun</label>
+      <input type="date" id="fGoalDate">
+      <p class="note">Het plan van 8 weken eindigt op deze datum. De lange run bouwt op tot je doelafstand.</p>
       <label class="f" for="fTarget">Doel per stap op je horloge</label>
       <select id="fTarget">
         <option value="pace">Tempo (aanbevolen)</option>
@@ -263,7 +309,8 @@ nav button.on{color:var(--acc)}
 
 <nav id="nav">
   <button class="on" data-v="home"><svg viewBox="0 0 24 24"><path d="M4 11.5 12 5l8 6.5V20H4z"/></svg>Vandaag</button>
-  <button data-v="plan"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>Plan</button>
+  <button data-v="plan"><svg viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1"/><circle cx="4.5" cy="12" r="1"/><circle cx="4.5" cy="18" r="1"/></svg>Plan</button>
+  <button data-v="agenda"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4M8 14h.01M12 14h.01M16 14h.01M8 17.5h.01M12 17.5h.01"/></svg>Agenda</button>
   <button data-v="prog"><svg viewBox="0 0 24 24"><path d="M4 19V11M10 19V6M16 19v-5M21 19H3"/></svg>Voortgang</button>
   <button data-v="set"><svg viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>Instellingen</button>
 </nav>
@@ -280,6 +327,7 @@ const DAY = 864e5, PFX = 'Coach: ';
 const DN = ['zo','ma','di','wo','do','vr','za'];
 const DNL = ['zondag','maandag','dinsdag','woensdag','donderdag','vrijdag','zaterdag'];
 const MON = ['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'];
+const MONL = ['januari','februari','maart','april','mei','juni','juli','augustus','september','oktober','november','december'];
 const pad = n => String(n).padStart(2,'0');
 const ymd = d => d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
 const parse = s => { const [y,m,d] = String(s).slice(0,10).split('-').map(Number); return new Date(y,m-1,d); };
@@ -295,13 +343,16 @@ const dur = sec => { sec = Math.round(sec); const m = Math.floor(sec/60), s = se
 const hum = sec => { sec = Math.round(sec); if (sec < 60) return sec+' s'; const m = Math.floor(sec/60), s = sec%60; return s ? m+':'+pad(s)+' min' : m+' min'; };
 const mmss = sec => { sec = Math.round(sec); const h = Math.floor(sec/3600), m = Math.floor(sec%3600/60), s = sec%60; return h ? h+':'+pad(m)+':'+pad(s) : m+':'+pad(s); };
 const pace = spk => { const s = Math.round(spk); return Math.floor(s/60)+':'+pad(s%60); };
+const kmFmt = x => String(Math.round(x*10)/10).replace('.', ',');
+const half = x => Math.round(x*2)/2;
 let toastT;
 const toast = t => { const el = $('#toast'); el.textContent = t; el.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(()=>el.classList.remove('on'), 3000); };
 
 /* ========== instellingen ========== */
-const DEF = {apiKey:'', athlete:'0', days:[2,4,0], startMin:90, target:'pace', margin:'normaal', auto:true, demo:true, planStart:null, lastSig:'', pr5k:'', moves:{}, skips:{}, fb:{}, v2:true};
+const DEF = {apiKey:'', athlete:'0', days:[2,4,0], startMin:90, target:'pace', margin:'normaal', auto:true, demo:true, planStart:null, lastSig:'', pr5k:'', moves:{}, skips:{}, fb:{}, qplan:{}, goal:null, v2:true};
 let S = {...DEF};
-try { const raw = JSON.parse(localStorage.getItem('lc_settings') || '{}'); S = {...DEF, ...raw}; if (!raw.v3) { S.target = 'pace'; S.margin = S.margin || 'normaal'; S.v2 = S.v3 = true; } } catch(e) {}
+try { const raw = JSON.parse(localStorage.getItem('lc_settings') || '{}'); S = {...DEF, ...raw}; if (!raw.v3) { S.target = 'pace'; S.margin = S.margin || 'normaal'; S.v2 = S.v3 = true; } if (!raw.v4) { S.goal = {on:true, km:16, date:'2027-01-24'}; S.v4 = true; } } catch(e) {}
+if (!S.qplan) S.qplan = {};
 const save = () => { try { localStorage.setItem('lc_settings', JSON.stringify(S)); } catch(e) {} };
 
 /* ========== intervals.icu ========== */
@@ -332,32 +383,51 @@ async function loadLive() {
   ]);
   const ss = ath && Array.isArray(ath.sportSettings) ? ath.sportSettings.find(x => (x.types || []).includes('Run')) : null;
   const noThreshold = !!ss && !ss.threshold_pace;
-  const runs = (acts || []).filter(a => /Run/i.test(a.type || '')).map(a => ({
-    id: a.id, date: String(a.start_date_local || '').slice(0,10), name: a.name || 'Run',
-    km: (a.distance || 0)/1000, min: (a.moving_time || a.elapsed_time || 0)/60,
-    hr: a.average_heartrate || null, load: a.icu_training_load ?? null, rpe: a.icu_rpe ?? a.perceived_exertion ?? null
-  })).sort((a,b) => a.date < b.date ? 1 : -1);
+  const all = (acts || []).map(mapAct).sort(byNewest);
+  const runs = all.filter(a => a.cat === 'run');
   const wellness = (well || []).map(x => ({date: x.id, ctl: x.ctl, atl: x.atl, hrv: x.hrv, rhr: x.restingHR}))
     .sort((a,b) => a.date < b.date ? -1 : 1);
   const events = (evs || []).map(e => ({id: e.id, date: String(e.start_date_local || '').slice(0,10), name: e.name || ''}));
-  return {runs, wellness, events, noThreshold};
+  return {acts: all, runs, wellness, events, noThreshold};
+}
+/* sporten */
+const CAT = {run:{n:'Hardlopen', c:'#1d3fbf'}, kracht:{n:'Kracht', c:'#f08a3c'}, fiets:{n:'Fietsen', c:'#1f9d61'}, overig:{n:'Overig', c:'#98a2b3'}};
+const TYPENL = {Run:'Hardlopen', VirtualRun:'Hardlopen binnen', TrailRun:'Trailrun', WeightTraining:'Kracht', Ride:'Fietsen', VirtualRide:'Fietsen binnen', GravelRide:'Gravel', MountainBikeRide:'Mountainbike', EBikeRide:'E-bike', Walk:'Wandelen', Hike:'Hiken', Swim:'Zwemmen', Yoga:'Yoga', Workout:'Training', Rowing:'Roeien', Elliptical:'Crosstrainer', Crossfit:'Crossfit', HighIntensityIntervalTraining:'HIIT'};
+const catOf = t => /Run/i.test(t) ? 'run' : /Weight|Strength|Crossfit|HighIntensity|HIIT/i.test(t) ? 'kracht' : /Ride|Cycl/i.test(t) ? 'fiets' : 'overig';
+const typeNl = t => TYPENL[t] || String(t || 'Activiteit').replace(/([a-z])([A-Z])/g, '$1 $2');
+const byNewest = (a,b) => (a.date + a.time) < (b.date + b.time) ? 1 : -1;
+function mapAct(a) {
+  const type = a.type || 'Other', sd = String(a.start_date_local || '');
+  return {id: a.id, date: sd.slice(0,10), time: sd.slice(11,16), type, cat: catOf(type), name: a.name || typeNl(type),
+    km: (a.distance || 0)/1000, min: (a.moving_time || a.elapsed_time || 0)/60,
+    hr: a.average_heartrate || null, hrmax: a.max_heartrate || null, load: a.icu_training_load ?? null,
+    rpe: a.icu_rpe ?? a.perceived_exertion ?? null, kcal: a.calories || null, elev: a.total_elevation_gain || null};
 }
 
 function demoData() {
   let seed = 11; const rnd = () => (seed = (seed*16807) % 2147483647) / 2147483647;
-  const t = midnight(); const runs = [], wellness = []; let ctl = 26, atl = 28;
+  const t = midnight(); const acts = [], wellness = []; let ctl = 26, atl = 28;
+  const A = (o) => ({time:'18:15', hrmax:null, kcal:null, elev:null, rpe:null, ...o});
   for (let i = 62; i >= 0; i--) {
     const d = addDays(t,-i), w = d.getDay(); let load = 0;
     if (i > 0 && [2,4,0].includes(w) && (rnd() > 0.1 || i < 10)) {
       const min = w===0 ? 55+rnd()*25 : w===2 ? 42+rnd()*10 : 35+rnd()*12;
       const p = w===2 ? 5.3 : 6.0+rnd()*0.4;
       load = Math.round(min*(w===2 ? 1.25 : 0.9));
-      runs.push({id:'d'+i, date: ymd(d), name: w===0 ? 'Lange duurloop' : w===2 ? 'Intervallen' : 'Rustige duurloop', km: min/p, min, hr: Math.round(w===2 ? 158+rnd()*8 : 142+rnd()*8), load, rpe: i > 3 ? (w===2 ? 7 : 4) : null});
+      const hr = Math.round(w===2 ? 158+rnd()*8 : 142+rnd()*8);
+      acts.push(A({id:'d'+i, date: ymd(d), type:'Run', cat:'run', name: w===0 ? 'Lange duurloop' : w===2 ? 'Intervallen' : 'Rustige duurloop', km: min/p, min, hr, hrmax: hr+14, kcal: Math.round(min*11), elev: Math.round(min*0.4), load, rpe: i > 3 ? (w===2 ? 7 : 4) : null}));
+    } else if ((w === 1 || w === 5) && rnd() > 0.35) {
+      const min = 40+rnd()*15; load = Math.round(min*0.6);
+      acts.push(A({id:'s'+i, date: ymd(d), time:'07:30', type:'WeightTraining', cat:'kracht', name:'Strength', km:0, min, hr: Math.round(112+rnd()*10), kcal: Math.round(min*6), load}));
+    } else if (w === 6 && rnd() > 0.55) {
+      const min = 60+rnd()*40; load = Math.round(min*0.7);
+      acts.push(A({id:'f'+i, date: ymd(d), time:'10:00', type:'Ride', cat:'fiets', name:'Rondje fietsen', km: min/60*26, min, hr: Math.round(128+rnd()*10), kcal: Math.round(min*9), elev: Math.round(min*1.5), load}));
     }
     ctl += (load-ctl)/42; atl += (load-atl)/7;
     if (i <= 41) wellness.push({date: ymd(d), ctl: +ctl.toFixed(1), atl: +atl.toFixed(1), hrv: Math.round(52+rnd()*10), rhr: Math.round(49+rnd()*3)});
   }
-  return {runs: runs.reverse(), wellness, events: []};
+  acts.sort(byNewest);
+  return {acts, runs: acts.filter(a => a.cat === 'run'), wellness, events: []};
 }
 
 /* ========== tempo: VDOT (Daniels) ========== */
@@ -366,13 +436,28 @@ const pmax = t => 0.8 + 0.1894393*Math.exp(-0.012778*t) + 0.2989558*Math.exp(-0.
 const vdotOf = (m, min) => vo2(m/min) / pmax(min);
 const paceAt = (vd, p) => { const c = 4.60 + p*vd; const v = (-0.182258 + Math.sqrt(0.182258**2 + 4*0.000104*c)) / (2*0.000104); return 60000 / v; };
 const predict = (vd, m) => { let lo = m/600, hi = m/50; for (let i = 0; i < 60; i++) { const mid = (lo+hi)/2; if (vdotOf(m, mid) > vd) lo = mid; else hi = mid; } return (lo+hi)/2*60; };
-function fitnessVdot(runs) {
+function baseVdot(runs) {
   const m = String(S.pr5k || '').trim().match(/^(\d{1,2}):(\d{2})$/);
-  if (m) return {vd: clamp(vdotOf(5000, (+m[1]*60 + +m[2])/60), 20, 85), src: 'je 5 km-tijd van ' + S.pr5k};
+  if (m) return {vd: clamp(vdotOf(5000, (+m[1]*60 + +m[2])/60), 20, 85), src: 'je 5 km-tijd van ' + S.pr5k, from: null};
   const cut = ymd(addDays(midnight(), -56));
   let best = null;
   for (const r of runs) if (r.date >= cut && r.km >= 3 && r.min >= 12) { const v = vdotOf(r.km*1000, r.min); if (!best || v > best.v) best = {v, r}; }
-  return best ? {vd: clamp(best.v, 20, 85), src: 'je snelste recente run (' + best.r.km.toFixed(1) + ' km op ' + fdate(best.r.date) + ')', est: true} : null;
+  return best ? {vd: clamp(best.v, 20, 85), src: 'je snelste recente run (' + best.r.km.toFixed(1) + ' km op ' + fdate(best.r.date) + ')', est: true, from: best.r.date} : null;
+}
+// Intervallen die licht of heel licht voelden maken je zones iets sneller: +0,5 VDOT (ongeveer 3 s/km), hooguit eens per 14 dagen, maximaal +2.
+function fitnessVdot(runs) {
+  const b = baseVdot(runs); if (!b) return null;
+  const today = ymd(midnight()), from = b.from || ymd(addDays(planBase(), -1));
+  let last = null, n = 0;
+  for (const d of Object.keys(S.qplan || {}).sort()) {
+    if (d <= from || d > today) continue;
+    const r = runs.find(x => x.date === d); if (!r) continue;
+    const v = S.fb[r.id] ?? r.rpe; if (v == null || v > 4) continue;
+    if (last && parse(d) - parse(last) < 14*DAY - 1) continue;
+    last = d; n++;
+  }
+  const bonus = Math.min(2, n*0.5);
+  return {...b, base: b.vd, vd: clamp(b.vd + bonus, 20, 85), bonus};
 }
 
 /* ========== zones en workouts ========== */
@@ -435,13 +520,38 @@ function sTest() {
   return {title:'5 km testloop', type:'Test', why:'Eén keer per blok meet je je vorm. Je tijd maakt je tempozones en racetijden nauwkeuriger.',
     blocks:[blk('Warmup',1,[st(12,'easy'), st(20/60,'spr'), st(1,'rec'), st(20/60,'spr'), st(1,'rec')]), blk('Main set',1,[{sec, z:'thr', km:5, test:true}]), blk('Cooldown',1,[st(10,'rec')])]};
 }
+/* doelplan: lange run in km, drempel/VO2max met opbouw */
+const easyPace = () => VD ? (zPace('easy')[0] + zPace('easy')[1]) / 2 : 400;
+const kmStep = km => ({sec: Math.round(km*easyPace()), z:'easy', km});
+function sLongKm(km, i, back) {
+  return {title:'Lange duurloop', sub: kmFmt(km) + ' km', type:'Lang', why: (back ? 'Je bent moe, dus deze week een stap terug in de opbouw. ' : '') + 'Stap ' + (i+1) + ' van 8 naar je ' + kmFmt(S.goal.km) + ' km. Helemaal rustig, op praattempo.', blocks:[blk(null,1,[kmStep(km)])]};
+}
+function sGoalRun() {
+  return {title: kmFmt(S.goal.km) + ' km doelrun', type:'Doel', why:'Hier heb je 8 weken naartoe gewerkt. Begin rustig: de eerste kilometers mogen te makkelijk voelen.', blocks:[blk(null,1,[kmStep(S.goal.km)])]};
+}
+function sSharp() {
+  return {title:'Rustig + versnellingen', type:'Rustig', why:'Kort en licht, met een paar versnellingen zodat je benen scherp zijn voor je doelrun.', blocks:[blk(null,1,[st(18,'easy')]), blk('Main set',4,[st(20/60,'spr'), st(100/60,'rec')]), blk(null,1,[st(5,'easy')])]};
+}
+const THR = [[3,8],[4,8],[3,10],[2,15],[1,20]], VO2L = [[4,3],[5,3],[6,3]];
+const GQ = [['thr',0],['vo2',0],['thr',1],['thr',0],['thr',2],['vo2',1],['thr',3]];
+function sGoalQ(i, light) {
+  const [kind, lvl] = GQ[i], [r0, on] = (kind === 'thr' ? THR : VO2L)[lvl];
+  const reps = Math.max(1, r0 - (light ? 1 : 0)), z = kind === 'thr' ? 'thr' : 'vo2', off = kind === 'thr' && on >= 15 ? 3 : 2;
+  const title = kind === 'thr' ? (reps === 1 ? 'Drempelduurloop' : 'Drempelblokken') : 'VO2max-intervallen';
+  const why = (light ? 'Je herstel is niet optimaal, dus één herhaling minder. ' : '') +
+    (kind === 'thr' ? 'Blokken net onder je omslagpunt: daar heb je voor ' + kmFmt(S.goal.km) + ' km het meest aan.' : 'Blokken van 3 minuten hard verhogen je maximale zuurstofopname, zodat je rustige tempo makkelijker wordt.') +
+    (i === 3 ? ' Herstelweek, dus een stap terug.' : ' Elke opbouwweek komt er iets bij.');
+  return {title, sub: reps + '× ' + hum(on*60), type:'Intervallen', why,
+    blocks:[blk('Warmup',1,[st(12,'easy')]), blk('Main set',reps, reps === 1 ? [st(on,z)] : [st(on,z), st(off,'rec')]), blk('Cooldown',1,[st(10,'rec')])]};
+}
+const kmTxt = km => Number.isInteger(km) ? km + 'km' : Math.round(km*1000) + 'mtr';
 const totalSec = s => s.blocks.reduce((a,b) => a + b.reps*b.steps.reduce((x,y)=>x+y.sec,0), 0);
 const flat = s => s.blocks.flatMap(b => Array.from({length:b.reps}, () => b.steps).flat());
 const estKm = s => VD ? flat(s).reduce((a,x) => a + (x.km || x.sec / ((zPace(x.z)[0]+zPace(x.z)[1])/2)), 0) : null;
 function toText(s) {
   return s.blocks.map(b => {
     const head = b.label ? (b.reps > 1 ? b.label + ' ' + b.reps + 'x' : b.label) + '\n' : '';
-    return head + b.steps.map(x => '- ' + (x.test ? 'Test' : CUE[x.z]) + ' ' + (x.km ? x.km + 'km' : dur(x.sec)) + ' ' + (x.test ? (usePace('thr') ? pace(predict(VD.vd, 5000)/5 + 20) + '-' + pace(predict(VD.vd, 5000)/5 - 20) + '/km Pace' : '85-100% HR') : target(x.z))).join('\n');
+    return head + b.steps.map(x => '- ' + (x.test ? 'Test' : CUE[x.z]) + ' ' + (x.km ? kmTxt(x.km) : dur(x.sec)) + ' ' + (x.test ? (usePace('thr') ? pace(predict(VD.vd, 5000)/5 + 20) + '-' + pace(predict(VD.vd, 5000)/5 - 20) + '/km Pace' : '85-100% HR') : target(x.z))).join('\n');
   }).join('\n\n');
 }
 
@@ -482,7 +592,24 @@ function weekly(runs, n) {
 
 /* ========== het plan ========== */
 const PH = [{n:'Basis',m:1,b:false},{n:'Basis',m:1,b:true},{n:'Opbouw',m:1,b:true},{n:'Herstel',m:.75,b:false},{n:'Opbouw',m:1,b:true},{n:'Opbouw',m:1,b:true},{n:'Opbouw',m:1,b:true},{n:'Test',m:.8,b:false}];
-const weekInfo = mon => { const wk = Math.max(0, wkDiff(mon, parse(S.planStart))); const i = wk % 8; return {wk, i, block: Math.floor(wk/8)+1, ph: PH[i], start: addDays(mon, 0)}; };
+const PHG = PH.map((p,i) => i === 7 ? {n:'Doel', m:.8, b:false} : p);
+const goalOn = () => !!(S.goal && S.goal.on && S.goal.km > 0 && /^\d{4}-\d{2}-\d{2}$/.test(S.goal.date || ''));
+const goalStart = () => addDays(monday(parse(S.goal.date)), -49);
+const planBase = () => goalOn() ? goalStart() : (S.planStart ? parse(S.planStart) : monday(midnight()));
+const LADDER = [.5625,.625,.6875,.5625,.78,.875,.75,1];
+const ladderKm = i => half(S.goal.km * LADDER[i]);
+function weekInfo(mon) {
+  const w0 = wkDiff(mon, planBase());
+  if (w0 < 0) {
+    // weken voor de start van het doelplan: oude logica, met het label Aanloop
+    const wk = Math.max(0, wkDiff(mon, parse(S.planStart || ymd(monday(midnight()))))), i = wk % 8;
+    return {wk, i, block: 0, pre: true, goal: false, ph: {...PH[i], n:'Aanloop'}};
+  }
+  const i = w0 % 8, block = Math.floor(w0/8) + 1, goal = goalOn() && block === 1;
+  return {wk: w0, i, block, pre: false, goal, ph: goal ? PHG[i] : PH[i]};
+}
+const blockStart = info => addDays(planBase(), 56*Math.max(0, info.block-1));
+const weekLabel = info => info.pre ? 'voor het doelplan' : 'week ' + (info.i+1) + ' van 8';
 
 function context(D, R) {
   const t = midnight(), cur = monday(t);
@@ -498,8 +625,12 @@ function context(D, R) {
   const pct = x => (x > 1 ? '+' : '') + Math.round((x-1)*100) + '%';
   notes.push('Je status is ' + R.label.toLowerCase() + ', dus deze week ' + (f === 1 ? 'gelijk volume.' : pct(f) + ' volume.'));
   if (!fresh && actual >= S.startMin && last < .6*actual && f > .9) { f = .9; notes.push('Vorige week liep je veel minder, dus voorzichtig weer oppakken (' + pct(f) + ').'); }
-  if (R.key === 'moe') notes.push('Je bent moe: intervallen deze week worden rustige runs.');
-  notes.push('Elke vierde week is een herstelweek, de achtste week sluit af met een 5 km-test.');
+  if (R.key === 'moe') notes.push('Je bent moe: intervallen deze week worden rustige runs' + (goalOn() ? ' en de lange run gaat een stap terug.' : '.'));
+  if (goalOn()) {
+    notes.push('Doel: ' + kmFmt(S.goal.km) + ' km op ' + fdate(S.goal.date) + '. De lange run groeit van ' + kmFmt(ladderKm(0)) + ' naar ' + kmFmt(S.goal.km) + ' km, met een lichtere week 4 en 7.');
+    notes.push('Intervallen: twee keer drempel en één keer VO2max per drie weken, met elke opbouwweek iets meer herhalingen.');
+    notes.push('Voelen je intervallen licht of heel licht, dan worden je tempozones iets sneller (hooguit eens per twee weken).');
+  } else notes.push('Elke vierde week is een herstelweek, de achtste week sluit af met een 5 km-test.');
   return {t, cur, base, f, notes};
 }
 
@@ -509,20 +640,30 @@ function weekTarget(mon, C) {
   return clamp(C.base * (k <= 1 ? C.f : 1) * g * weekInfo(mon).ph.m, 45, 400);
 }
 
+function qualityFor(info, k, R, M) {
+  if (info.goal) return info.i === 7 ? sSharp() : sGoalQ(info.i, k === 0 && R.key === 'letop');
+  const ph = info.ph.n;
+  return sQuality(M, k === 0 && R.key === 'letop' ? QLIGHT : (ph === 'Herstel' || ph === 'Test') ? QEASY : Q[info.wk % 3]);
+}
 function genWeek(mon, C, R) {
   const info = weekInfo(mon), tgt = weekTarget(mon, C), k = wkDiff(mon, C.cur);
   if (tgt == null) return [];
   const days = [...S.days].sort((a,b) => ((a+6)%7) - ((b+6)%7)), n = days.length;
+  const runDates = days.map(dow => ymd(addDays(mon, (dow+6)%7)));
   let out = days.map((dow, pos) => {
-    const ds = ymd(addDays(mon, (dow+6)%7));
+    let ds = runDates[pos];
     const role = n === 1 || pos === n-1 ? 'long' : pos === 0 ? 'quality' : 'easy';
     const share = n === 1 ? 1 : n === 2 ? (role === 'long' ? .55 : .45) : role === 'long' ? .4 : role === 'quality' ? .3 : .3/(n-2);
-    const M = tgt * share, ph = info.ph.n, near = k <= 1;
+    const M = tgt * share, ph = info.ph.n, near = k <= 1, last = info.goal && info.i === 7;
     let s;
-    if (role === 'long') s = ph === 'Test' ? sTest() : sLong(M, !(near && R.key === 'moe') && ph === 'Opbouw' && info.wk % 2 === 0);
-    else if (role === 'easy') s = sEasy(M, near && R.key === 'fris' && ph !== 'Herstel');
-    else if (near && R.key === 'moe') { s = sEasy(M, false); s.why = 'Je bent moe: de intervallen zijn vervangen door een rustige run.'; }
-    else s = sQuality(M, k === 0 && R.key === 'letop' ? QLIGHT : (ph === 'Herstel' || ph === 'Test') ? QEASY : Q[info.wk % 3]);
+    if (info.goal && role === 'long') {
+      if (last) { s = sGoalRun(); const gd = S.goal.date; if (monday(parse(gd)).getTime() === mon.getTime() && (gd === ds || !runDates.includes(gd))) ds = gd; }
+      else { const back = near && R.key === 'moe'; s = sLongKm(back ? (info.i ? Math.min(ladderKm(info.i), ladderKm(info.i-1)) : half(ladderKm(0)*.85)) : ladderKm(info.i), info.i, back); }
+    }
+    else if (role === 'long') s = ph === 'Test' ? sTest() : sLong(M, !(near && R.key === 'moe') && ph === 'Opbouw' && info.wk % 2 === 0);
+    else if (role === 'easy') s = last ? sEasy(25, false) : sEasy(M, near && R.key === 'fris' && ph !== 'Herstel');
+    else if (near && R.key === 'moe') { s = sEasy(last ? 25 : M, false); s.why = 'Je bent moe: de intervallen zijn vervangen door een rustige run.'; }
+    else s = qualityFor(info, k, R, M);
     return Object.assign(s, {date: ds, orig: ds, role, info});
   });
   for (const s of out) { if (S.skips[s.orig]) s.skipped = true; if (S.moves[s.orig]) { s.date = S.moves[s.orig]; s.moved = true; } }
@@ -532,7 +673,7 @@ function genWeek(mon, C, R) {
     const today = ymd(C.t);
     const to = out.find(s => !s.skipped && s.role === 'easy' && s.date > sq.date && s.date >= today);
     if (to) {
-      const ns = sQuality(totalSec(to)/60, Q[info.wk % 3]);
+      const ns = qualityFor(info, k, R, totalSec(to)/60);
       Object.assign(to, ns, {role:'quality', why: 'Je sloeg de intervallen van ' + fdate(sq.date) + ' over, daarom staan ze nu hier.'});
     }
   }
@@ -547,9 +688,14 @@ function rebuild() {
   R = readiness(D.wellness, D.runs);
   C = context(D, R);
   WEEKS = {};
-  const bStart = addDays(parse(S.planStart), 7*8*(weekInfo(C.cur).block-1));
+  const bStart = blockStart(weekInfo(C.cur));
   for (let i = 0; i < 9; i++) { const m = addDays(bStart, 7*i); WEEKS[ymd(m)] = genWeek(m, C, R); }
-  const nxt = addDays(C.cur, 7); if (!WEEKS[ymd(nxt)]) WEEKS[ymd(nxt)] = genWeek(nxt, C, R);
+  for (const m of [C.cur, addDays(C.cur, 7)]) if (!WEEKS[ymd(m)]) WEEKS[ymd(m)] = genWeek(m, C, R);
+  // onthoud welke dagen een intervaltraining hadden (voor zones die meegroeien)
+  const today = ymd(C.t), cut = ymd(addDays(C.t, -90));
+  for (const s of allSessions()) if (s.type === 'Intervallen' && !s.skipped && s.date <= today) S.qplan[s.date] = 1;
+  for (const d of Object.keys(S.qplan)) if (d < cut) delete S.qplan[d];
+  save();
 }
 const allSessions = () => Object.values(WEEKS).flat();
 const runsOn = ds => D.runs.filter(r => r.date === ds);
@@ -630,7 +776,7 @@ function renderDay() {
     const pill = st === 'skip' ? '<span class="pill o">Overgeslagen</span>' : st === 'miss' ? '<span class="pill r">Gemist</span>' : '<span class="pill">' + esc(s.type) + '</span>';
     h = '<div class="card"><div class="kicker">' + when + ' ' + pill + (s.moved ? '<span>verplaatst</span>' : '') + '</div>' +
         '<div class="big">' + esc(s.title) + (s.sub ? ' <span class="mute" style="font-weight:600">' + esc(s.sub) + '</span>' : '') + '</div>' +
-        '<div class="meta"><span><b>' + s.min + ' min</b>duur</span>' + (km ? '<span><b>~' + km.toFixed(1) + ' km</b>afstand</span>' : '') + '<span><b>' + esc(s.info.ph.n) + '</b>week ' + (s.info.i+1) + ' van 8</span></div>' +
+        '<div class="meta"><span><b>' + s.min + ' min</b>duur</span>' + (km ? '<span><b>~' + km.toFixed(1) + ' km</b>afstand</span>' : '') + '<span><b>' + esc(s.info.ph.n) + '</b>' + weekLabel(s.info) + '</span></div>' +
         profile(s) + '<div class="axis"><span>0</span><span>' + s.min + ' min</span></div>' +
         (ownOn(s.date) ? '<p class="note">Je hebt zelf al een training op deze dag gepland, die gaat voor.</p>' : '') +
         '<div class="btns"><button class="btn" data-open="' + s.orig + '">Bekijk workout</button><button class="btn sec" data-move="' + s.orig + '">Verplaats</button></div></div>';
@@ -646,7 +792,7 @@ function renderDay() {
 function renderProgress() {
   const info = weekInfo(C.cur), wkS = WEEKS[ymd(C.cur)] || [];
   const doneMin = weekly(D.runs,1)[0].min, planMin = wkS.filter(s => !s.skipped).reduce((a,s) => a+s.min, 0) || 1;
-  const bStart = addDays(parse(S.planStart), 7*8*(info.block-1));
+  const bStart = blockStart(info), G = goalOn() && (info.goal || info.pre), P = G ? PHG : PH;
   let pDone = 0, pAll = 0;
   for (let i = 0; i < 8; i++) {
     const m = addDays(bStart, 7*i), ses = WEEKS[ymd(m)];
@@ -654,9 +800,9 @@ function renderProgress() {
     else { const runs = weekly(D.runs, wkDiff(C.cur, m)+1)[0].n; pAll += S.days.length; pDone += Math.min(runs, S.days.length); }
   }
   $('#progCard').innerHTML =
-    '<div class="prog"><h3>Week ' + (info.i+1) + ' van 8 · ' + info.ph.n + '</h3><span class="mute sm">blok ' + info.block + '</span></div>' +
-    '<div class="phases">' + PH.map((p,i) => '<i class="' + (i < info.i ? 'done' : i === info.i ? 'cur' : '') + '" title="' + p.n + '"></i>').join('') + '</div>' +
-    '<div class="phl"><span>Basis</span><span>Opbouw</span><span>Test</span></div>' +
+    '<div class="prog"><h3>' + (info.pre ? 'Aanloop' : 'Week ' + (info.i+1) + ' van 8 · ' + info.ph.n) + '</h3><span class="mute sm">' + (info.pre ? 'start ' + fdate(ymd(bStart)) : G ? 'naar ' + kmFmt(S.goal.km) + ' km' : 'blok ' + info.block) + '</span></div>' +
+    '<div class="phases">' + P.map((p,i) => '<i class="' + (info.pre ? '' : i < info.i ? 'done' : i === info.i ? 'cur' : '') + '" title="' + p.n + '"></i>').join('') + '</div>' +
+    '<div class="phl"><span>Basis</span><span>Opbouw</span><span>' + (G ? 'Doel' : 'Test') + '</span></div>' +
     '<div class="prog" style="margin:18px 0 8px"><span class="sm" style="font-weight:600">Deze week</span><span class="sm mute"><b class="num" style="color:var(--ink);font-size:16px">' + Math.round(doneMin) + '</b> / ' + planMin + ' min</span></div>' +
     '<div class="bar"><i style="width:' + clamp(doneMin/planMin*100,0,100).toFixed(0) + '%"></i></div>' +
     '<div class="prog" style="margin:14px 0 8px"><span class="sm" style="font-weight:600">Heel het blok</span><span class="sm mute"><b class="num" style="color:var(--ink);font-size:16px">' + pDone + '</b> / ' + pAll + ' runs</span></div>' +
@@ -664,20 +810,22 @@ function renderProgress() {
 }
 
 function renderPlan() {
-  const info = weekInfo(C.cur), bStart = addDays(parse(S.planStart), 7*8*(info.block-1));
-  $('#blockCard').innerHTML = '<div class="kicker">Blok ' + info.block + ' · fitter worden</div><div class="big">8 weken, 3 fases</div>' +
-    '<div class="phases">' + PH.map((p,i) => '<i class="' + (i < info.i ? 'done' : i === info.i ? 'cur' : '') + '"></i>').join('') + '</div>' +
+  const info = weekInfo(C.cur), bStart = blockStart(info), G = goalOn() && (info.goal || info.pre);
+  $('#blockCard').innerHTML = (G ? '<div class="kicker">Doel · ' + fdate(S.goal.date) + '</div><div class="big">' + kmFmt(S.goal.km) + ' km in 8 weken</div>' : '<div class="kicker">Blok ' + info.block + ' · fitter worden</div><div class="big">8 weken, 3 fases</div>') +
+    '<div class="phases">' + PH.map((p,i) => '<i class="' + (info.pre ? '' : i < info.i ? 'done' : i === info.i ? 'cur' : '') + '"></i>').join('') + '</div>' +
     '<div class="phl"><span>' + fdate(ymd(bStart)) + '</span><span>' + fdate(ymd(addDays(bStart, 55))) + '</span></div>';
   let h = '';
-  for (let i = 0; i < 8; i++) {
-    const m = addDays(bStart, 7*i), ms = ymd(m), ses = WEEKS[ms] || [], cur = ms === ymd(C.cur), past = m < C.cur;
+  const mons = (info.pre ? [C.cur] : []).concat(Array.from({length:8}, (_,i) => addDays(bStart, 7*i)));
+  for (const m of mons) {
+    const wi = weekInfo(m), ms = ymd(m), ses = WEEKS[ms] || [], cur = ms === ymd(C.cur), past = m < C.cur;
     const wr = weekly(D.runs, Math.max(1, wkDiff(C.cur, m)+1))[0];
     const dots = past ? Array.from({length: Math.max(S.days.length, wr.n)}, (_,j) => '<i class="mk ' + (j < wr.n ? 'done' : 'miss') + '"></i>').join('') : ses.map(s => '<i class="mk ' + mkClass(s) + '"></i>').join('');
     const right = past ? '<b>' + wr.km.toFixed(1) + ' km</b>gelopen' : '<b>' + ses.filter(s => !s.skipped).reduce((a,s)=>a+s.min,0) + ' min</b>' + (cur ? 'deze week' : 'gepland');
     let body = '';
     if (past) body = wr.n ? D.runs.filter(r => { const d = parse(r.date); return d >= m && d < addDays(m,7); }).map(r => '<div class="run"><span>' + fdate(r.date) + ' · ' + esc(r.name) + '</span><b>' + r.km.toFixed(1) + ' km</b></div>').join('') : '<p class="empty sm">Geen runs.</p>';
     else body = ses.map(s => { const st = status(s); return '<button class="ses' + (s.skipped ? ' skipped' : '') + '" data-open="' + s.orig + '"><div class="r"><span class="t">' + esc(s.title) + (s.sub ? ' · ' + esc(s.sub) : '') + '</span><span class="sm mute">' + s.min + ' min</span></div><div class="sm mute">' + fdate(s.date) + (st === 'done' ? ' · gedaan' : st === 'miss' ? ' · gemist' : st === 'skip' ? ' · overgeslagen' : '') + (s.moved ? ' · verplaatst' : '') + '</div>' + profile(s,'mini') + '</button>'; }).join('');
-    h += '<div class="wk' + (cur ? ' cur open' : '') + '"><button aria-expanded="' + cur + '"><div><h3>Week ' + (i+1) + ' · ' + PH[i].n + '</h3><div class="sm mute">' + m.getDate() + ' ' + MON[m.getMonth()] + ' – ' + addDays(m,6).getDate() + ' ' + MON[addDays(m,6).getMonth()] + '</div><div class="dots">' + dots + '</div></div><div class="right">' + right + '</div></button><div class="body">' + body + '</div></div>';
+    const lk = wi.goal && !past && wi.i < 7 ? ' · lange run ' + kmFmt(ladderKm(wi.i)) + ' km' : wi.goal && wi.i === 7 ? ' · doelrun' : '';
+    h += '<div class="wk' + (cur ? ' cur open' : '') + '"><button aria-expanded="' + cur + '"><div><h3>' + (wi.pre ? 'Deze week · Aanloop' : 'Week ' + (wi.i+1) + ' · ' + wi.ph.n) + '</h3><div class="sm mute">' + m.getDate() + ' ' + MON[m.getMonth()] + ' – ' + addDays(m,6).getDate() + ' ' + MON[addDays(m,6).getMonth()] + lk + '</div><div class="dots">' + dots + '</div></div><div class="right">' + right + '</div></button><div class="body">' + body + '</div></div>';
   }
   $('#weeks').innerHTML = h;
   $('#why').innerHTML = C.notes.concat(R.reasons).map(x => '<li>' + esc(x) + '</li>').join('');
@@ -688,7 +836,8 @@ function renderStats() {
   if (VD) {
     const L = [['5 km',5000],['10 km',10000],['Halve marathon',21097.5],['Marathon',42195]];
     $('#race').innerHTML = L.map(([n,m]) => { const s = predict(VD.vd, m); return '<div><span>' + n + '</span><b>' + mmss(s) + '</b><span>' + pace(s/(m/1000)) + ' /km</span></div>'; }).join('');
-    $('#raceNote').textContent = 'Gebaseerd op ' + VD.src + '.' + (VD.est ? ' Rustige runs geven een voorzichtige schatting: vul een 5 km-tijd in of doe de test in week 8.' : '');
+    const gain = VD.bonus ? Math.round(paceAt(VD.base, .88) - paceAt(VD.vd, .88)) : 0;
+    $('#raceNote').textContent = 'Gebaseerd op ' + VD.src + '.' + (gain ? ' Je intervallen gingen makkelijk, dus je zones staan ' + gain + ' s/km sneller.' : '') + (VD.est && !goalOn() ? ' Rustige runs geven een voorzichtige schatting: vul een 5 km-tijd in of doe de test in week 8.' : VD.est ? ' Rustige runs geven een voorzichtige schatting: vul een recente 5 km-tijd in voor nauwkeurigere zones.' : '');
     $('#zones').innerHTML = '<div class="z"><i style="background:var(--ink)"></i><span>Drempeltempo<span class="xs mute"> · voor intervals.icu</span></span><b>' + pace(paceAt(VD.vd, .88)) + '</b></div>' + Object.entries(Z).map(([k,z]) => { const p = zPace(k); return '<div class="z"><i style="background:' + z.c + '"></i><span>' + z.n + '<span class="xs mute"> · ' + z.hr[0] + '–' + z.hr[1] + '% HR</span></span><b>' + pace(p[1]) + '–' + pace(p[0]) + '</b></div>'; }).join('');
   } else {
     $('#race').innerHTML = '';
@@ -719,7 +868,120 @@ function drawFit() {
 }
 const fitRO = new ResizeObserver(drawFit); fitRO.observe(fitSvg);
 
-function renderAll() { renderHeader(); renderStrip(); renderDay(); renderProgress(); renderPlan(); renderStats(); }
+/* ========== agenda ========== */
+let AGM = null, AGSEL = null, AGLIST = [];
+const AGC = {};
+function agActs(gs, ge) {
+  if (S.demo || !S.apiKey || gs >= addDays(C.t, -60)) return D.acts || D.runs;
+  const key = ymd(gs);
+  if (AGC[key]) return AGC[key];
+  if (!AGC[key + '_p']) {
+    AGC[key + '_p'] = 1;
+    api('/activities?oldest=' + ymd(gs) + '&newest=' + ymd(ge))
+      .then(a => { AGC[key] = (a || []).map(mapAct).sort(byNewest); renderAgenda(); })
+      .catch(e => { delete AGC[key + '_p']; showMsg(esc(e.message), 'err'); });
+  }
+  return null;
+}
+function agLabel(a) {
+  if (a.cat === 'run') return kmFmt(a.km) + ' km';
+  if (a.cat === 'kracht') return 'Kracht';
+  if (a.cat === 'fiets') return a.km >= 1 ? 'Fiets ' + Math.round(a.km) : 'Fiets';
+  return typeNl(a.type).split(' ')[0];
+}
+function planLabel(s) {
+  if (s.type === 'Doel') return 'Doel ' + kmFmt(S.goal.km);
+  if (s.type === 'Lang') return s.sub || 'Lang';
+  if (s.type === 'Test') return '5k test';
+  if (s.type === 'Intervallen') return /^Drempel/.test(s.title) ? 'Drempel' : /^VO2/.test(s.title) ? 'VO2max' : 'Interval';
+  return 'Rustig';
+}
+function renderAgenda() {
+  if (!D || !C) return;
+  if (!AGM) AGM = new Date(C.t.getFullYear(), C.t.getMonth(), 1);
+  const y = AGM.getFullYear(), mo = AGM.getMonth(), gs = monday(AGM);
+  const dim = new Date(y, mo+1, 0).getDate(), rows = Math.ceil((((AGM.getDay()+6)%7) + dim) / 7), ge = addDays(gs, rows*7 - 1);
+  $('#agTitle').textContent = MONL[mo].replace(/^./, c => c.toUpperCase()) + ' ' + y;
+  // maandknoppen: 3 maanden terug tot het einde van het plan
+  const lastPlan = allSessions().reduce((a,s) => s.date > a ? s.date : a, ymd(C.t));
+  let m = new Date(C.t.getFullYear(), C.t.getMonth() - 3, 1);
+  const endP = parse(lastPlan), end = new Date(Math.max(new Date(endP.getFullYear(), endP.getMonth(), 1), new Date(C.t.getFullYear(), C.t.getMonth()+1, 1), AGM));
+  if (AGM < m) m = new Date(AGM);
+  let ch = '';
+  for (; m <= end; m = new Date(m.getFullYear(), m.getMonth()+1, 1)) {
+    if (m.getMonth() === 0 && ch) ch += '<span class="yr">' + m.getFullYear() + '</span>';
+    ch += '<button data-agm="' + m.getFullYear() + '-' + (m.getMonth()+1) + '"' + (m.getTime() === AGM.getTime() ? ' class="on"' : '') + '>' + MON[m.getMonth()] + '</button>';
+  }
+  const cEl = $('#agChips'); cEl.innerHTML = ch;
+  const on = cEl.querySelector('.on'); if (on) cEl.scrollLeft = on.offsetLeft - cEl.clientWidth/2 + on.offsetWidth/2;
+  const list = agActs(gs, ge); AGLIST = list || [];
+  const today = ymd(C.t);
+  let g = '', hasPlan = false, hasMiss = false;
+  for (let i = 0; i < rows*7; i++) {
+    const d = addDays(gs, i), ds = ymd(d), items = [];
+    for (const a of AGLIST.filter(a => a.date === ds).sort((a,b) => a.time < b.time ? -1 : 1)) items.push('<span class="ev" style="background:' + CAT[a.cat].c + '">' + esc(agLabel(a)) + '</span>');
+    const s = sessionOn(ds);
+    if (s) {
+      const st = status(s);
+      if (st === 'plan') { hasPlan = true; items.push('<span class="ev plan" style="color:' + CAT.run.c + '">' + esc(planLabel(s)) + '</span>'); }
+      else if (st === 'miss' || st === 'skip') { hasMiss = true; items.push('<span class="ev miss">' + esc(planLabel(s)) + '</span>'); }
+    }
+    const shown = items.slice(0, 3).join('') + (items.length > 3 ? '<span class="more">+' + (items.length - 3) + '</span>' : '');
+    g += '<button class="cd' + (d.getMonth() !== mo ? ' out' : '') + (ds === today ? ' today' : '') + (ds === AGSEL ? ' sel' : '') + '" data-ag="' + ds + '" aria-label="' + DNL[d.getDay()] + ' ' + d.getDate() + ' ' + MONL[d.getMonth()] + '"><span class="n">' + d.getDate() + '</span>' + shown + '</button>';
+  }
+  $('#agGrid').innerHTML = g;
+  $('#agLegend').innerHTML = Object.values(CAT).map(c => '<span><i style="background:' + c.c + '"></i>' + c.n + '</span>').join('') +
+    '<span><i class="pl"></i>Gepland</span><span><i class="ms"></i>Gemist</span>';
+  $('#agNote').textContent = list ? '' : 'Activiteiten laden…';
+}
+function actCard(a) {
+  const c = CAT[a.cat], p = a.cat === 'run' && a.km > 0 ? a.min*60/a.km : 0, fi = rpeIdx(S.fb[a.id] ?? a.rpe), main = [], sec = [];
+  if (a.km >= 0.1) main.push([a.km.toFixed(2).replace('.', ','), 'km']);
+  main.push([mmss(a.min*60), 'tijd']);
+  if (p) main.push([pace(p), '/km']);
+  else if (a.cat === 'fiets' && a.km > 0 && a.min > 0) main.push([(a.km/(a.min/60)).toFixed(1).replace('.', ','), 'km/u']);
+  if (a.hr) main.push([Math.round(a.hr), 'hartslag']);
+  if (a.hrmax) sec.push('max ' + Math.round(a.hrmax) + ' bpm');
+  if (a.elev) sec.push(Math.round(a.elev) + ' m stijgen');
+  if (a.kcal) sec.push(Math.round(a.kcal) + ' kcal');
+  if (a.load != null) sec.push('belasting ' + Math.round(a.load));
+  if (fi >= 0) sec.push('voelde ' + RPEL[fi].toLowerCase());
+  return '<div class="card white"><div class="kicker"><i class="dot" style="background:' + c.c + '"></i>' + esc(typeNl(a.type)) + (a.time ? ' · ' + a.time : '') + '</div>' +
+    '<div class="big" style="font-size:22px">' + esc(a.name) + '</div><div class="meta">' + main.map(([v,l]) => '<span><b>' + v + '</b>' + l + '</span>').join('') + '</div>' +
+    (sec.length ? '<p class="note">' + sec.join(' · ') + '</p>' : '') + '</div>';
+}
+function planCard(s) {
+  const st = status(s), km = estKm(s), today = ymd(C.t);
+  const pill = st === 'skip' ? '<span class="pill o">Overgeslagen</span>' : st === 'miss' ? '<span class="pill r">Gemist</span>' : st === 'done' ? '<span class="pill g">Gedaan</span>' : '<span class="pill">Gepland</span>';
+  const canMove = st === 'plan' || (st === 'skip' && s.date >= today);
+  return '<div class="card"><div class="kicker">' + pill + '<span>' + esc(s.type) + '</span>' + (s.moved ? '<span>verplaatst</span>' : '') + '</div>' +
+    '<div class="big" style="font-size:22px">' + esc(s.title) + (s.sub ? ' <span class="mute" style="font-weight:600">' + esc(s.sub) + '</span>' : '') + '</div>' +
+    '<div class="meta"><span><b>' + s.min + ' min</b>duur</span>' + (km ? '<span><b>~' + kmFmt(km) + ' km</b>afstand</span>' : '') + '<span><b>' + esc(s.info.ph.n) + '</b>' + weekLabel(s.info) + '</span></div>' +
+    profile(s, 'mini') +
+    '<div class="btns" style="grid-template-columns:' + (canMove ? '1fr 1fr 1fr' : '1fr') + '"><button class="btn sec" data-open="' + s.orig + '">Workout</button>' +
+    (canMove ? '<button class="btn sec" data-move="' + s.orig + '">Verplaats</button><button class="btn sec" data-skip="' + s.orig + '">' + (s.skipped ? 'Toch doen' : 'Overslaan') + '</button>' : '') + '</div></div>';
+}
+function openAgDay(ds) {
+  const d = parse(ds), acts = AGLIST.filter(a => a.date === ds).sort((a,b) => a.time < b.time ? -1 : 1), s = sessionOn(ds);
+  const showPlan = s && status(s) !== 'done';
+  let body = acts.map(actCard).join('') + (s ? planCard(s) : '');
+  if (!acts.length && !s) body = '<p class="mute">' + (ds > ymd(C.t) ? 'Niets gepland. Rustdag.' : 'Geen activiteiten op deze dag.') + '</p>';
+  openSheet(sheetHead(DNL[d.getDay()].replace(/^./, c => c.toUpperCase()) + ' ' + d.getDate() + ' ' + MONL[d.getMonth()], acts.length ? acts.length + (acts.length === 1 ? ' activiteit' : ' activiteiten') : showPlan ? 'Gepland' : 'Agenda') + body);
+}
+const agGo = n => { AGM = new Date(AGM.getFullYear(), AGM.getMonth() + n, 1); renderAgenda(); };
+{
+  let sx = null, sy = null;
+  const g = $('#agGrid');
+  g.addEventListener('touchstart', e => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, {passive: true});
+  g.addEventListener('touchend', e => {
+    if (sx == null) return;
+    const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy; sx = null;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) { agSwiped = Date.now(); agGo(dx < 0 ? 1 : -1); }
+  });
+}
+let agSwiped = 0;
+
+function renderAll() { renderHeader(); renderStrip(); renderDay(); renderProgress(); renderPlan(); renderStats(); renderAgenda(); }
 
 /* ========== sheet: workout, verplaatsen, status ========== */
 let lastFocus = null;
@@ -728,7 +990,7 @@ function closeSheet() { document.body.classList.remove('open-sheet'); if (lastFo
 const findOrig = o => allSessions().find(s => s.orig === o);
 const sheetHead = (t, sub) => '<div class="top" style="margin-bottom:6px"><div><div class="kicker">' + sub + '</div><h2 id="shTitle" style="margin:4px 0 0;font-size:24px">' + t + '</h2></div><button class="xbtn" aria-label="Sluiten">×</button></div>';
 
-function stepRow(x) { return '<div class="stp"><i style="background:' + Z[x.z].c + '"></i><div><div class="lbl">' + (x.test ? '5 km test' : Z[x.z].n) + '</div><div class="tg">' + esc(targetHuman(x)) + '</div></div><div class="d">' + (x.km ? x.km + ' km' : hum(x.sec)) + '</div></div>'; }
+function stepRow(x) { return '<div class="stp"><i style="background:' + Z[x.z].c + '"></i><div><div class="lbl">' + (x.test ? '5 km test' : Z[x.z].n) + '</div><div class="tg">' + esc(targetHuman(x)) + '</div></div><div class="d">' + (x.km ? kmFmt(x.km) + ' km' : hum(x.sec)) + '</div></div>'; }
 function openWorkout(o) {
   const s = findOrig(o); if (!s) return;
   const km = estKm(s), NL = {Warmup:'Warming-up', 'Main set':'Kern', Cooldown:'Cooling-down'};
@@ -784,6 +1046,9 @@ document.addEventListener('click', async e => {
     return;
   }
   if (t.classList.contains('day')) { SEL = t.dataset.d; renderStrip(); renderDay(); return; }
+  if (t.dataset.agstep) return agGo(+t.dataset.agstep);
+  if (t.dataset.agm) { const [yy, mm] = t.dataset.agm.split('-').map(Number); AGM = new Date(yy, mm-1, 1); return renderAgenda(); }
+  if (t.dataset.ag) { if (Date.now() - agSwiped < 400) return; AGSEL = t.dataset.ag; renderAgenda(); return openAgDay(t.dataset.ag); }
   if (t.closest('.wk') && t.parentElement.classList.contains('wk')) { const w = t.parentElement; w.classList.toggle('open'); t.setAttribute('aria-expanded', w.classList.contains('open')); return; }
 });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSheet(); });
@@ -795,6 +1060,7 @@ $('#nav').addEventListener('click', e => {
   document.querySelectorAll('#nav button').forEach(x => x.classList.toggle('on', x === b));
   document.querySelectorAll('.view').forEach(v => v.classList.toggle('on', v.id === 'v-' + b.dataset.v));
   if (b.dataset.v === 'prog') drawFit();
+  if (b.dataset.v === 'agenda') renderAgenda();
   window.scrollTo(0,0);
 });
 
@@ -812,6 +1078,7 @@ const ORDER = [1,2,3,4,5,6,0];
 function fillForm() {
   $('#fKey').value = S.apiKey; $('#fAth').value = S.athlete; $('#fMin').value = S.startMin; $('#f5k').value = S.pr5k;
   $('#fTarget').value = S.target; $('#fMargin').value = S.margin; $('#fAuto').checked = S.auto; $('#fDemo').checked = S.demo;
+  $('#fGoal').checked = !!(S.goal && S.goal.on); $('#fGoalKm').value = S.goal ? S.goal.km : 16; $('#fGoalDate').value = S.goal ? S.goal.date : '';
   $('#fDays').innerHTML = ORDER.map(d => '<label><input type="checkbox" value="' + d + '"' + (S.days.includes(d) ? ' checked' : '') + '><span>' + DN[d] + '</span></label>').join('');
 }
 function readForm() {
@@ -820,6 +1087,7 @@ function readForm() {
   S.apiKey = key; S.athlete = $('#fAth').value.trim() || '0'; S.pr5k = $('#f5k').value.trim();
   S.startMin = clamp(+$('#fMin').value || 90, 45, 400); S.target = $('#fTarget').value; S.margin = $('#fMargin').value;
   S.auto = $('#fAuto').checked; S.demo = $('#fDemo').checked; S.days = days.length ? days : [2,4,0];
+  S.goal = {on: $('#fGoal').checked, km: clamp(half(parseFloat(String($('#fGoalKm').value).replace(',', '.')) || 16), 5, 42), date: $('#fGoalDate').value || (S.goal && S.goal.date) || ''};
 }
 $('#setForm').addEventListener('submit', e => { e.preventDefault(); readForm(); S.lastSig = ''; save(); fillForm(); toast('Opgeslagen'); boot(); });
 $('#testBtn').addEventListener('click', async () => {
@@ -854,7 +1122,7 @@ async function boot() {
     showMsg('Demo met voorbeelddata. Vul je API key in bij <b>Instellingen</b> voor je eigen data.');
   } else {
     $('#rlabel').textContent = 'Laden…';
-    try { D = await loadLive(); } catch(e) { D = {runs:[], wellness:[], events:[]}; showMsg(esc(e.message), 'err'); }
+    try { D = await loadLive(); } catch(e) { D = {acts:[], runs:[], wellness:[], events:[]}; showMsg(esc(e.message), 'err'); }
   }
   rebuild(); renderAll(); showBanners();
   autoPush();
