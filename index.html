@@ -184,8 +184,6 @@ button.card{appearance:none;display:block;width:100%;text-align:left;font:inheri
 .tiles b{font-size:17px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
 .gl{font-size:12px;font-weight:700;color:var(--mute);text-transform:uppercase;letter-spacing:.05em;margin:16px 0 6px}
 .gl:first-of-type{margin-top:4px}
-.dmap{height:220px;border-radius:16px;overflow:hidden;background:var(--surf);margin-top:14px;position:relative;z-index:0}
-.dmap svg{width:100%;height:100%}
 .readout{position:sticky;top:-10px;z-index:3;background:rgba(255,255,255,.96);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);padding:9px 0;display:flex;gap:6px 14px;flex-wrap:wrap;font-size:13px;color:var(--mute);border-bottom:1px solid var(--line);min-height:40px;align-items:center}
 .readout b{color:var(--ink);font-variant-numeric:tabular-nums}
 .chw{position:relative;padding:12px 0 6px;touch-action:pan-y;border-bottom:1px solid var(--line);-webkit-user-select:none;user-select:none}
@@ -1035,7 +1033,7 @@ async function getDetail(b) {
     const id = encodeURIComponent(b.id);
     const [a, st] = await Promise.all([
       req('/activity/' + id + '?intervals=true'),
-      req('/activity/' + id + '/streams.json?types=time,distance,heartrate,velocity_smooth,altitude,cadence,watts,latlng,temp').catch(() => [])
+      req('/activity/' + id + '/streams.json?types=time,distance,heartrate,velocity_smooth,altitude,cadence,watts,temp').catch(() => [])
     ]);
     r = {a: a || {}, st: normStreams(st)};
   }
@@ -1147,11 +1145,7 @@ function detailHtml(b, det) {
     : [[mmss(mov), 'tijd'], [avgHr ? Math.round(avgHr) : '–', 'gem. hartslag'], [a.calories || b.kcal ? Math.round(a.calories || b.kcal) : '–', 'kcal']];
   let h = '<div class="dhero">' + hero.map(([v,l]) => '<div><b>' + v + '</b><span>' + l + '</span></div>').join('') + '</div>';
 
-  // 2. kaart
-  const ll = st.latlng ? st.latlng.filter(p => p && num(p[0]) && num(p[1]) && (p[0] || p[1])) : [];
-  if (ll.length > 10) h += '<div class="dmap" id="dmap"></div>';
-
-  // 3. statistieken, in vaste volgorde
+  // 2. statistieken, in vaste volgorde
   let t = '';
   if (hasDist) t += tiles(usePaceX ? 'Tempo' : 'Snelheid', usePaceX ? [
     ['Gem. tempo', pace(1000/spd) + ' /km'],
@@ -1192,12 +1186,12 @@ function detailHtml(b, det) {
   h += '<div class="dsec"><h3>Statistieken</h3>' + t + '</div>';
   if (b.cat === 'kracht') h += '<p class="note">Sets, herhalingen en gewichten komen niet door via intervals.icu, die staan alleen in Garmin Connect.</p>';
 
-  // 4. grafieken
+  // 3. grafieken
   const L = (st.time || st.heartrate || []).length;
   if (L > 20) {
     const N = Math.min(L, 360), useD = hasDist && st.distance && st.distance.length === L;
     const T = st.time || Array.from({length:L}, (_,i) => i);
-    DS = {N, x: bucket(useD ? st.distance : T, N), t: bucket(T, N), useD, ll: ll.length > 10 ? bucket(st.latlng.map(p => p && p[0]), N) : null, lg: ll.length > 10 ? bucket(st.latlng.map(p => p && p[1]), N) : null, ch: []};
+    DS = {N, x: bucket(useD ? st.distance : T, N), t: bucket(T, N), useD, ch: []};
     const V = st.velocity_smooth;
     if (V && hasDist) DS.ch.push(usePaceX
       ? {n:'Tempo', u:'/km', v: bucket(V, N).map(x => x > 0.9 ? 1000/x : null), f: pace, inv: true, c:'var(--acc)', avg: pace(1000/spd)}
@@ -1215,7 +1209,7 @@ function detailHtml(b, det) {
     }
   } else DS = null;
 
-  // 5. splits
+  // 4. splits
   if (splits.length > 1) {
     const fastest = Math.min(...splits.map(s => s.t/s.d)), slowest = Math.max(...splits.map(s => s.t/s.d));
     h += '<div class="dsec"><h3>Splits <small>per ' + (isRide ? '5 km' : 'km') + '</small></h3><table class="tb"><tr><th>' + (isRide ? 'km' : 'Km') + '</th><th>' + (usePaceX ? 'Tempo' : 'km/u') + '</th><th></th><th>HS</th><th>Hoogte</th></tr>' +
@@ -1223,7 +1217,7 @@ function detailHtml(b, det) {
         return '<tr><td>' + (s.part ? fmt1((isRide ? i*5 : i) + s.d/1000) : (isRide ? (i+1)*5 : i+1)) + '</td><td><b>' + (usePaceX ? pace(p*1000) : fmt1(3.6/p)) + '</b></td><td class="bc"><span class="sbar" style="width:' + w.toFixed(0) + '%;' + (best === s ? '' : 'opacity:.45') + '"></span></td><td>' + (s.hr ? Math.round(s.hr) : '–') + '</td><td class="mute">' + (st.altitude ? '+' + Math.round(s.up) + ' / −' + Math.round(s.dn) : '–') + '</td></tr>'; }).join('') + '</table></div>';
   }
 
-  // 6. rondes / intervallen, met je plan ernaast
+  // 5. rondes / intervallen, met je plan ernaast
   const iv = Array.isArray(a.icu_intervals) ? a.icu_intervals.filter(x => x && (x.type === 'WORK' || x.type === 'RECOVERY') && num(x.moving_time) && x.moving_time > 0) : [];
   if (iv.length >= 2) {
     const s = sessionOn(b.date), main = s && s.type === 'Intervallen' ? s.blocks.find(x => x.label === 'Main set') : null, z = main ? main.steps[0].z : null;
@@ -1235,7 +1229,7 @@ function detailHtml(b, det) {
         return '<tr' + (work ? '' : ' class="mute"') + '><td>' + (work ? '<b style="color:var(--vo2)">Snel ' + (++w) + '</b>' : 'Herstel') + '</td><td>' + mmss(x.moving_time) + '</td><td>' + (num(x.distance) ? (x.distance >= 1000 ? fmt1(x.distance/1000) + ' km' : Math.round(x.distance) + ' m') : '–') + '</td><td>' + (p ? (usePaceX ? pace(1000/p) : fmt1(p*3.6)) : '–') + '</td><td>' + (num(x.average_heartrate) ? Math.round(x.average_heartrate) : '–') + '</td>' + (rg ? '<td>' + ev + '</td>' : '') + '</tr>'; }).join('') + '</table></div>';
   }
 
-  // 7. tijd in zones
+  // 6. tijd in zones
   const hz = zoneTimes(a, st);
   if (hz) {
     const bd = hz.bounds, labels = bd ? hz.t.map((_,i) => i === 0 ? 'tot ' + bd[0] + ' bpm' : i === hz.t.length - 1 && i >= bd.length - 1 ? 'vanaf ' + (bd[i-1] + 1) + ' bpm' : (bd[i-1] + 1) + '–' + bd[i] + ' bpm') : null;
@@ -1273,40 +1267,13 @@ function chartHtml(c, k) {
     '<path d="' + area + '" fill="' + paint + '" opacity=".16"/><path d="' + line + '" fill="none" stroke="' + paint + '" stroke-width="2" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg>' +
     '<span class="yl" style="top:-8px">' + c.f(top) + '</span><span class="yl" style="bottom:-8px">' + c.f(bot) + '</span><i class="cur"></i></div></div>';
 }
-let LP = null, MAP = null, MAPDOT = null;
-const loadLeaflet = () => LP || (LP = new Promise((res, rej) => {
-  const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'; document.head.appendChild(l);
-  const s = document.createElement('script'); s.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'; s.onload = () => res(window.L); s.onerror = () => { LP = null; rej(new Error('kaart niet geladen')); }; document.head.appendChild(s);
-}));
 function wireDetail(det) {
-  MAP = null; MAPDOT = null;
-  const el = $('#dmap');
-  if (el) {
-    const pts = det.st.latlng.filter(p => p && num(p[0]) && num(p[1]) && (p[0] || p[1]));
-    const step = Math.max(1, Math.floor(pts.length/1500)), P = pts.filter((_,i) => i % step === 0);
-    // eerst een simpele lijn, daarna de echte kaart
-    const la = P.map(p => p[0]), lo = P.map(p => p[1]), a0 = Math.min(...la), a1 = Math.max(...la), o0 = Math.min(...lo), o1 = Math.max(...lo), k = Math.cos(a0*Math.PI/180);
-    const sc = Math.max((o1-o0)*k, a1-a0) || 1;
-    el.innerHTML = '<svg viewBox="-5 -5 110 110" preserveAspectRatio="xMidYMid meet"><polyline fill="none" stroke="#1d3fbf" stroke-width="1.6" stroke-linejoin="round" points="' + P.map(p => ((p[1]-o0)*k/sc*100).toFixed(2) + ',' + (100 - (p[0]-a0)/sc*100).toFixed(2)).join(' ') + '"/></svg>';
-    loadLeaflet().then(L => {
-      if (!document.body.contains(el)) return;
-      el.innerHTML = '';
-      MAP = L.map(el, {zoomControl: false, scrollWheelZoom: false, attributionControl: true});
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {attribution: '© OpenStreetMap © CARTO', subdomains: 'abcd', maxZoom: 19}).addTo(MAP);
-      const line = L.polyline(P, {color: '#1d3fbf', weight: 4, opacity: .9}).addTo(MAP);
-      L.circleMarker(P[0], {radius: 6, color: '#fff', weight: 2, fillColor: '#1f9d61', fillOpacity: 1}).addTo(MAP);
-      L.circleMarker(P[P.length-1], {radius: 6, color: '#fff', weight: 2, fillColor: '#d1453b', fillOpacity: 1}).addTo(MAP);
-      MAP.fitBounds(line.getBounds(), {padding: [20, 20]});
-      setTimeout(() => { if (MAP) { MAP.invalidateSize(); MAP.fitBounds(line.getBounds(), {padding: [20, 20]}); } }, 350);
-    }).catch(() => {});
-  }
   const box = $('#dcharts'); if (!box || !DS) return;
   const move = e => {
     const r = box.querySelector('.pl').getBoundingClientRect(), f = clamp((e.clientX - r.left)/r.width, 0, 1), i = Math.round(f*(DS.N-1));
     box.querySelectorAll('.cur').forEach(c => { c.style.display = 'block'; c.style.left = (f*100) + '%'; });
     const xs = DS.useD ? '<b>' + fmt1(DS.x[i]/1000) + ' km</b> · ' + mmss(DS.t[i]) : '<b>' + mmss(DS.t[i]) + '</b>';
     $('#dread').innerHTML = xs + DS.ch.map(c => c.v[i] != null ? '<span><span style="color:' + (c.zones ? 'var(--vo2)' : c.c) + '">●</span> <b>' + c.f(c.v[i]) + '</b> ' + c.u + '</span>' : '').join('');
-    if (MAP && DS.ll && DS.ll[i] != null && window.L) { const p = [DS.ll[i], DS.lg[i]]; if (!MAPDOT) MAPDOT = L.circleMarker(p, {radius: 7, color: '#fff', weight: 3, fillColor: '#0f1729', fillOpacity: 1}).addTo(MAP); else MAPDOT.setLatLng(p); }
   };
   box.addEventListener('pointermove', move);
   box.addEventListener('pointerdown', move);
